@@ -1,19 +1,40 @@
 :root {
-  --bg-primary: #0a0e17;
-  --bg-secondary: #111827;
-  --card-bg: rgba(26, 34, 52, 0.75);
-  --card-border: #243049;
+  /* Pastel Palette System */
+  --pastel-mint: #d1fae5;
+  --pastel-mint-border: #a7f3d0;
+  --pastel-mint-text: #065f46;
+
+  --pastel-sky: #e0f2fe;
+  --pastel-sky-border: #bae6fd;
+  --pastel-sky-text: #0369a1;
+
+  --pastel-lavender: #ede9fe;
+  --pastel-lavender-border: #ddd6fe;
+  --pastel-lavender-text: #5b21b6;
+
+  --pastel-peach: #ffedd5;
+  --pastel-peach-border: #fed7aa;
+  --pastel-peach-text: #9a3412;
+
+  --pastel-rose: #ffe4e6;
+  --pastel-rose-border: #fecdd3;
+  --pastel-rose-text: #9f1239;
+
+  --pastel-butter: #fef9c3;
+  --pastel-butter-border: #fef08a;
+  --pastel-butter-text: #854d0e;
+
+  /* Dashboard Theme */
+  --bg-primary: #0b1120;
+  --bg-secondary: #131b2e;
+  --card-bg: rgba(23, 32, 54, 0.85);
+  --card-border: #24324f;
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.25);
-  --status-green: #10b981;
-  --status-green-glow: rgba(16, 185, 129, 0.25);
-  --status-yellow: #f59e0b;
-  --status-red: #ef4444;
-  --status-red-glow: rgba(239, 68, 68, 0.3);
-  --sidebar-bg: #070b13;
-  --header-bg: #0d1322;
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.25);
+  --sidebar-bg: #090e1a;
+  --header-bg: #0f172a;
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -87,7 +108,7 @@ aside {
 .nav-list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
   list-style: none;
   margin-bottom: 12px;
 }
@@ -112,7 +133,7 @@ aside {
 }
 
 .nav-item.active {
-  background: var(--accent);
+  background: linear-gradient(135deg, #0284c7, #0369a1);
   color: #fff;
   font-weight: 600;
   box-shadow: 0 4px 12px var(--accent-glow);
@@ -138,19 +159,21 @@ aside {
   gap: 8px;
   width: 100%;
   padding: 10px;
-  background: linear-gradient(135deg, #059669, #0d9488);
-  color: #fff;
-  border: none;
+  background: var(--pastel-mint);
+  color: var(--pastel-mint-text);
+  border: 1px solid var(--pastel-mint-border);
   border-radius: 8px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
 }
 
 .clinic-portal-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 /* MAIN CONTENT LAYOUT */
@@ -179,6 +202,7 @@ header {
   gap: 12px;
 }
 
+/* PASTEL AMBIENT STATUS PILL */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -187,24 +211,25 @@ header {
   border-radius: 99px;
   font-size: 13px;
   font-weight: 600;
-  background: rgba(16, 185, 129, 0.12);
-  color: var(--status-green);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: var(--pastel-mint);
+  color: var(--pastel-mint-text);
+  border: 1px solid var(--pastel-mint-border);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
   transition: all 0.3s ease;
 }
 
 .status-pill.red {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--status-red);
-  border-color: rgba(239, 68, 68, 0.4);
-  box-shadow: 0 0 15px var(--status-red-glow);
+  background: var(--pastel-rose);
+  color: var(--pastel-rose-text);
+  border-color: var(--pastel-rose-border);
+  box-shadow: 0 2px 12px rgba(244, 63, 94, 0.25);
   animation: pulse-red 2s infinite;
 }
 
 @keyframes pulse-red {
-  0% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.3); }
-  50% { box-shadow: 0 0 18px rgba(239, 68, 68, 0.6); }
-  100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.3); }
+  0% { box-shadow: 0 0 5px rgba(244, 63, 94, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(244, 63, 94, 0.4); }
+  100% { box-shadow: 0 0 5px rgba(244, 63, 94, 0.2); }
 }
 
 .pulse-dot {
@@ -228,8 +253,8 @@ header {
   color: var(--text-muted);
   background: var(--bg-secondary);
   border: 1px solid var(--card-border);
-  padding: 5px 12px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
 }
 
 .metric-pill b {
@@ -261,9 +286,10 @@ header {
   background: var(--card-bg);
   backdrop-filter: blur(8px);
   border: 1px solid var(--card-border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 18px;
   margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-title {
@@ -292,7 +318,7 @@ header {
 /* BUTTONS */
 .btn {
   background: var(--accent);
-  color: #fff;
+  color: #0c4a6e;
   border: none;
   border-radius: 8px;
   padding: 8px 14px;
@@ -321,17 +347,21 @@ header {
 }
 
 .btn-danger {
-  background: #dc2626;
+  background: var(--pastel-rose);
+  color: var(--pastel-rose-text);
+  border: 1px solid var(--pastel-rose-border);
 }
 
 .btn-success {
-  background: #059669;
+  background: var(--pastel-mint);
+  color: var(--pastel-mint-text);
+  border: 1px solid var(--pastel-mint-border);
 }
 
-/* BADGES & PILLS */
+/* PASTEL BADGES & TAGS */
 .tag {
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 99px;
   font-weight: 600;
   display: inline-flex;
@@ -339,15 +369,40 @@ header {
   gap: 4px;
 }
 
-.tag-green { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.tag-yellow { background: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.tag-red { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-.tag-blue { background: rgba(59, 130, 246, 0.18); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.tag-green {
+  background: var(--pastel-mint);
+  color: var(--pastel-mint-text);
+  border: 1px solid var(--pastel-mint-border);
+}
+
+.tag-yellow {
+  background: var(--pastel-butter);
+  color: var(--pastel-butter-text);
+  border: 1px solid var(--pastel-butter-border);
+}
+
+.tag-red {
+  background: var(--pastel-rose);
+  color: var(--pastel-rose-text);
+  border: 1px solid var(--pastel-rose-border);
+}
+
+.tag-blue {
+  background: var(--pastel-sky);
+  color: var(--pastel-sky-text);
+  border: 1px solid var(--pastel-sky-border);
+}
+
+.tag-purple {
+  background: var(--pastel-lavender);
+  color: var(--pastel-lavender-text);
+  border: 1px solid var(--pastel-lavender-border);
+}
 
 /* TABLES */
 .table-container {
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--card-border);
 }
 
@@ -359,21 +414,17 @@ table {
 }
 
 th {
-  background: #141c2c;
+  background: #101827;
   color: #94a3b8;
   font-weight: 600;
-  padding: 10px 14px;
+  padding: 11px 14px;
   border-bottom: 1px solid var(--card-border);
 }
 
 td {
-  padding: 11px 14px;
+  padding: 12px 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   color: #cbd5e1;
-}
-
-tr:last-child td {
-  border-bottom: none;
 }
 
 tr:hover td {
@@ -386,7 +437,7 @@ tr:hover td {
   color: #38bdf8;
 }
 
-/* SMS SIMULATOR PHONE CARD */
+/* PHONE CARD */
 .phone-mockup {
   background: #000;
   border: 4px solid #334155;
@@ -419,9 +470,9 @@ tr:hover td {
 }
 
 .sms-bubble.urgent {
-  background: #3a1515;
-  border-color: #ef4444;
-  color: #fecaca;
+  background: #2a151b;
+  border-color: #f43f5e;
+  color: #fecdd3;
 }
 
 .sms-meta {
@@ -436,7 +487,7 @@ tr:hover td {
 .scenario-card {
   background: rgba(17, 24, 39, 0.85);
   border: 1px solid var(--card-border);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -455,7 +506,7 @@ tr:hover td {
   margin-bottom: 14px;
 }
 
-/* SURGICAL AIR-GAP DIAGRAM */
+/* AIRGAP DIAGRAM */
 .airgap-workflow {
   display: flex;
   align-items: center;
@@ -480,9 +531,9 @@ tr:hover td {
 }
 
 .flow-node.active {
-  border-color: var(--status-red);
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
+  border-color: #f43f5e;
+  background: rgba(244, 63, 94, 0.15);
+  color: #fecdd3;
   font-weight: 600;
 }
 
@@ -508,15 +559,15 @@ tr:hover td {
 
 .six-box h4 {
   font-size: 12px;
-  color: #60a5fa;
+  color: #38bdf8;
   margin-bottom: 6px;
   text-transform: uppercase;
 }
 
 .six-box.do-box {
-  border-color: rgba(16, 185, 129, 0.4);
+  border-color: rgba(52, 211, 153, 0.4);
 }
 
 .six-box.avoid-box {
-  border-color: rgba(239, 68, 68, 0.4);
+  border-color: rgba(244, 63, 94, 0.4);
 }
