@@ -1,0 +1,41 @@
+[
+  {
+    "id": "usr-1",
+    "patientId": "pat-1",
+    "name": "Arthur Pendelton",
+    "email": "arthur.pendelton@example.com",
+    "password": "Password123!",
+    "hasPasskey": true,
+    "passkeyCredentialId": "pk_cred_art_9041a82f",
+    "passkeyName": "Arthur's iPhone TouchID",
+    "recoveryCode": "CS-RECOV-8419-7291-3048",
+    "registeredAt": "2026-08-14T09:00:00.000Z",
+    "role": "patient"
+  },
+  {
+    "id": "usr-2",
+    "patientId": "pat-2",
+    "name": "Elena Rostova",
+    "email": "elena.rostova@example.com",
+    "password": "Password123!",
+    "hasPasskey": true,
+    "passkeyCredentialId": "pk_cred_ele_3810f91a",
+    "passkeyName": "Elena's MacBook TouchID",
+    "recoveryCode": "CS-RECOV-9122-6301-4482",
+    "registeredAt": "2026-07-22T10:15:00.000Z",
+    "role": "patient"
+  },
+  {
+    "id": "usr-3",
+    "patientId": "pat-3",
+    "name": "Marcus Holloway",
+    "email": "marcus.holloway@example.com",
+    "password": "Password123!",
+    "hasPasskey": false,
+    "passkeyCredentialId": null,
+    "passkeyName": null,
+    "recoveryCode": "CS-RECOV-3741-9920-1153",
+    "registeredAt": "2026-06-15T11:30:00.000Z",
+    "role": "patient"
+  }
+]

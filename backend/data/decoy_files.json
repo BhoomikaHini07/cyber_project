@@ -1,0 +1,52 @@
+[
+  {
+    "id": "file-legit-1",
+    "filename": "patient_intake_and_rights_guide.pdf",
+    "title": "Patient Intake & Health Rights Guide",
+    "category": "Public Patient Document",
+    "size": "245 KB",
+    "isDecoy": false,
+    "description": "General clinical intake guidance and HIPAA patient privacy policy notice.",
+    "content": "OAKRIDGE CLINIC: Official Patient Rights & Intake Notice. All patient records are confidential."
+  },
+  {
+    "id": "file-legit-2",
+    "filename": "clinic_privacy_practices_notice.pdf",
+    "title": "Notice of Privacy Practices",
+    "category": "Public Compliance Document",
+    "size": "180 KB",
+    "isDecoy": false,
+    "description": "Standard clinic privacy policy and HIPAA disclosure procedures.",
+    "content": "OAKRIDGE CLINIC: Privacy Practices Notice regarding protected health information."
+  },
+  {
+    "id": "file-decoy-1",
+    "filename": "clinic_patient_records_master_2026.csv.bak",
+    "title": "clinic_patient_records_master_2026.csv.bak",
+    "category": "Confidential Backup (Honeypot Decoy)",
+    "size": "4.2 MB",
+    "isDecoy": true,
+    "description": "Synthetic decoy honeypot file placed to trap automated crawlers and data harvesters.",
+    "trapTrigger": "Automated Decoy File Download Intercepted"
+  },
+  {
+    "id": "file-decoy-2",
+    "filename": "insurance_billing_export_confidential.xlsx",
+    "title": "insurance_billing_export_confidential.xlsx",
+    "category": "Financial Decoy (Honeypot)",
+    "size": "1.8 MB",
+    "isDecoy": true,
+    "description": "Synthetic financial honeypot decoy mimicking sensitive billing exports.",
+    "trapTrigger": "Confidential Billing Decoy Download Attempted"
+  },
+  {
+    "id": "file-decoy-3",
+    "filename": "staff_credentials_internal_vpn.txt",
+    "title": "staff_credentials_internal_vpn.txt",
+    "category": "Credential Decoy (Honeypot)",
+    "size": "12 KB",
+    "isDecoy": true,
+    "description": "Synthetic credential trap placed to catch credential scrapers.",
+    "trapTrigger": "Staff Credential Honeypot Download Attempted"
+  }
+]

@@ -1,6 +1,12 @@
 /**
- * Automated Test Suite for ClearShield Canary Trap & Honeypot
- * Validates all 4 Demonstration Scenarios and Restoration Flow
+ * Comprehensive Automated Test Suite for ClearShield Healthcare Cybersecurity Platform
+ * Validates all 6 Demonstration Scenarios required by specification:
+ * - Scenario 1: Normal patient login & authorized medicine retrieval
+ * - Scenario 2: Pre-login restricted route probing (/admin, /backup, /database)
+ * - Scenario 3: Cross-patient unauthorized medicine query (IDOR protection)
+ * - Scenario 4: Automated decoy file download interception
+ * - Scenario 5: Large bulk data extraction volume guard
+ * - Scenario 6: Serious security incident & Protected Standby Care Continuity
  */
 
 const http = require('http');
@@ -31,9 +37,9 @@ function request(options, postData = null) {
 }
 
 async function runTests() {
-  console.log('====================================================');
-  console.log('🧪 RUNNING CLEARSHIELD CANARY TRAP INTEGRATION TESTS');
-  console.log('====================================================\n');
+  console.log('================================================================');
+  console.log('🧪 CLEARSHIELD HEALTHCARE CYBERSECURITY - 6 SCENARIO SUITE');
+  console.log('================================================================\n');
 
   let passed = 0;
   let failed = 0;
@@ -49,8 +55,10 @@ async function runTests() {
   }
 
   try {
-    // 1. Initial State Check (Phase 1: Armed & Ready)
-    console.log('--- Phase 1: Checking Armed & Ready Status ---');
+    // -------------------------------------------------------------------------
+    // Phase 1: Baseline Health & Connectivity
+    // -------------------------------------------------------------------------
+    console.log('--- Phase 1: Baseline Health & Connection ---');
     const statusRes = await request({
       hostname: 'localhost',
       port: PORT_CLEARSHIELD,
@@ -58,74 +66,139 @@ async function runTests() {
       method: 'GET'
     });
     assert(statusRes.status === 200, 'ClearShield status returns 200 OK');
-    assert(statusRes.data.isArmed === true, 'Canary trap is ARMED');
-    assert(statusRes.data.airGapped === false, 'System is not air-gapped initially');
-    assert(statusRes.data.indicatorColor === 'green', 'Status indicator is GREEN: "ClearShield Active"');
+    assert(statusRes.data.statusText.includes('ClearShield is Active'), 'System notification: "ClearShield is Active – All Systems Normal"');
+    assert(statusRes.data.indicatorColor === 'green', 'Ambient status is Green');
+    assert(statusRes.data.airGapped === false, 'System initially not air-gapped');
 
-    // 2. Scenario A: Normal Receptionist Access & Safe Cancel
-    console.log('\n--- Scenario A: Normal Receptionist & Safe Cancel ---');
-    const recordsRes = await request({
+    // -------------------------------------------------------------------------
+    // SCENARIO 1: Normal Patient Auth & Own Medicine/Appointment Access
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 1: Normal Patient Login & Prescriptions Access ---');
+    const loginRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
-      path: '/api/clinic/records',
+      path: '/api/clinic/auth/login',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }, {
+      email: 'arthur.pendelton@example.com',
+      password: 'Password123!',
+      loginType: 'password'
+    });
+    assert(loginRes.status === 200, 'Patient Arthur Pendelton login succeeds');
+    assert(!!loginRes.data.sessionToken, 'Session token issued');
+    const arthurToken = loginRes.data.sessionToken;
+
+    // View own prescriptions
+    const rxRes = await request({
+      hostname: 'localhost',
+      port: PORT_CLINIC,
+      path: '/api/clinic/patient/prescriptions',
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${arthurToken}` }
+    });
+    assert(rxRes.status === 200, 'Authorized query for Arthur prescriptions succeeds');
+    assert(Array.isArray(rxRes.data.prescriptions) && rxRes.data.prescriptions.length > 0, 'Returns Arthur permitted medicine records (Lisinopril, Atorvastatin)');
+    assert(rxRes.data.prescriptions.every(r => r.patientId === 'pat-1'), 'All returned medicines strictly belong to authenticated patient (pat-1)');
+
+    // -------------------------------------------------------------------------
+    // SCENARIO 2: Pre-Login Restricted Route Probing Blocked
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 2: Pre-Login Probes on /admin, /backup, /database ---');
+    const probe1 = await request({
+      hostname: 'localhost',
+      port: PORT_CLINIC,
+      path: '/admin',
       method: 'GET'
     });
-    assert(recordsRes.status === 200, 'Normal clinic records query succeeds');
-    assert(Array.isArray(recordsRes.data.records) && recordsRes.data.records.length > 0, 'Returns synthetic clinic records');
-    assert(recordsRes.data.records[0].isCanary === true, 'Row 0 contains Canary Decoy record');
+    assert(probe1.status === 403, 'Pre-login GET /admin is intercepted with HTTP 403 Forbidden');
+    assert(probe1.data.code === 'PRE_LOGIN_PROBE_BLOCKED', 'Flagged as PRE_LOGIN_PROBE_BLOCKED');
 
-    const safeCancelRes = await request({
+    const probe2 = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
-      path: '/api/clinic/safe-cancel',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    }, { user: 'Receptionist', device: 'RECEPTION-PC' });
-    assert(safeCancelRes.status === 200, 'Safe cancel returns 200 OK');
-    assert(safeCancelRes.data.systemStatus.indicatorColor === 'green', 'Ambient status remains GREEN with zero alarms');
+      path: '/backup',
+      method: 'GET'
+    });
+    assert(probe2.status === 403, 'Pre-login GET /backup is intercepted with HTTP 403 Forbidden');
 
-    // 3. Scenario B: Suspicious Visitor PIN Guessing
-    console.log('\n--- Scenario B: Suspicious Visitor PIN Brute Force ---');
-    await request({
+    const threatCheck = await request({
+      hostname: 'localhost',
+      port: PORT_CLEARSHIELD,
+      path: '/api/clearshield/threats/pre-login',
+      method: 'GET'
+    });
+    assert(threatCheck.data.length >= 2, 'Pre-login reconnaissance attempts logged on ClearShield Threat Monitoring');
+
+    // -------------------------------------------------------------------------
+    // SCENARIO 3: Cross-Patient IDOR Medicine Query Denied & Recorded
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 3: Cross-Patient Medicine Query (IDOR Defense) ---');
+    // Arthur (pat-1) attempts to query Elena Rostova (pat-2) medicines
+    const idorRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
-      path: '/api/clinic/auth/verify-pin',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    }, { pin: '0001', device: 'VISITOR-KIOSK' });
+      path: '/api/clinic/patient/pat-2/prescriptions',
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${arthurToken}` }
+    });
+    assert(idorRes.status === 403, 'Unauthorized cross-patient query is DENIED with HTTP 403 Forbidden');
+    assert(idorRes.data.code === 'UNAUTHORIZED_CROSS_PATIENT_ACCESS', 'Code is UNAUTHORIZED_CROSS_PATIENT_ACCESS');
 
-    await request({
+    // Check Data Protection audit log
+    const dpCheck = await request({
+      hostname: 'localhost',
+      port: PORT_CLEARSHIELD,
+      path: '/api/clearshield/data-protection/events',
+      method: 'GET'
+    });
+    assert(dpCheck.data.length > 0, 'IDOR incident logged in ClearShield Data Protection registry');
+    assert(dpCheck.data[0].targetPatientId === 'pat-2', 'Logged target patient ID matches target');
+
+    // -------------------------------------------------------------------------
+    // SCENARIO 4: Honeypot Decoy File Download Stopped at Byte 0
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 4: Automated Decoy File Download Interception ---');
+    const decoyStart = Date.now();
+    const decoyRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
-      path: '/api/clinic/auth/verify-pin',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    }, { pin: '0002', device: 'VISITOR-KIOSK' });
+      path: '/api/clinic/files/download/file-decoy-1',
+      method: 'GET',
+      headers: { 'User-Agent': 'Automated Scraper Bot / 1.0' }
+    });
+    const decoyElapsed = Date.now() - decoyStart;
 
-    const pin3Res = await request({
+    assert(decoyRes.status === 403, 'Decoy file download halted before delivery with HTTP 403 Forbidden');
+    assert(decoyRes.data.code === 'HONEYPOT_DECOY_BLOCKED', 'Code is HONEYPOT_DECOY_BLOCKED');
+    console.log(`  ⏱️ Decoy Interception Latency: ${decoyRes.data.latency} (Roundtrip: ${decoyElapsed}ms)`);
+
+    // Verify Honeypot Monitoring registry
+    const hpCheck = await request({
       hostname: 'localhost',
-      port: PORT_CLINIC,
-      path: '/api/clinic/auth/verify-pin',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    }, { pin: '0003', device: 'VISITOR-KIOSK' });
-    assert(pin3Res.status === 403, '3rd failed PIN attempt is blocked with HTTP 403 Forbidden');
-    assert(pin3Res.data.code === 'BRUTE_FORCE_BLOCKED', 'Flagged with BRUTE_FORCE_BLOCKED code');
+      port: PORT_CLEARSHIELD,
+      path: '/api/clearshield/honeypot/events',
+      method: 'GET'
+    });
+    assert(hpCheck.data.events.length > 0, 'Honeypot event logged on ClearShield Page 3 (Honeypot Monitoring)');
 
-    // 4. Scenario D: Bulk Data Exfiltration Attempt
-    console.log('\n--- Scenario D: Bulk Data Exfiltration Block ---');
+    // -------------------------------------------------------------------------
+    // SCENARIO 5: Bulk Data Extraction Volume Check
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 5: Large Bulk Data Extraction Volume Guard ---');
     const bulkRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
-      path: '/api/clinic/export?limit=250',
+      path: '/api/clinic/export?limit=500',
       method: 'GET'
     });
-    assert(bulkRes.status === 403, 'Bulk data request of 250 records blocked with HTTP 403');
-    assert(bulkRes.data.code === 'BULK_EXFILTRATION_PREVENTED', 'Flagged as BULK_EXFILTRATION_PREVENTED');
+    assert(bulkRes.status === 403, 'Request for 500 patient records blocked with HTTP 403 Forbidden');
+    assert(bulkRes.data.code === 'BULK_EXFILTRATION_PREVENTED', 'Code is BULK_EXFILTRATION_PREVENTED');
 
-    // 5. Scenario C: Canary Trap Triggered by Automated Scraper (<15ms catch)
-    console.log('\n--- Scenario C: Canary Trap Tripwire Catch (<15ms) ---');
-    const start = Date.now();
+    // -------------------------------------------------------------------------
+    // SCENARIO 6: Serious Incident – Session Isolated & Protected Standby
+    // -------------------------------------------------------------------------
+    console.log('\n--- Scenario 6: Serious Incident – Surgical Air-Gap & Continuity ---');
     const canaryRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
@@ -133,66 +206,63 @@ async function runTests() {
       method: 'GET',
       headers: { 'User-Agent': 'Automated Scraper Bot / 1.0' }
     });
-    const elapsed = Date.now() - start;
-
-    assert(canaryRes.status === 403, 'Access to Row 0 Canary returns HTTP 403 Forbidden');
+    assert(canaryRes.status === 403, 'Row 0 Canary Tripwire tripped with HTTP 403');
     assert(canaryRes.data.code === 'CANARY_TRIPWIRE_TRIGGERED', 'Code is CANARY_TRIPWIRE_TRIGGERED');
-    assert(canaryRes.data.airGapActive === true, 'Surgical Air-Gap activated');
-    console.log(`  ⏱️ Canary Interception Latency: ${canaryRes.data.latency} (HTTP roundtrip: ${elapsed}ms)`);
 
-    // Verify System Post-Tripwire State (Phases 3, 4, 5, 6)
-    console.log('\n--- Post-Attack System Status Verification ---');
-    const postStatusRes = await request({
+    // Verify Air-Gap and Standby Telemetry
+    const airgapStatus = await request({
       hostname: 'localhost',
       port: PORT_CLEARSHIELD,
       path: '/api/clearshield/status',
       method: 'GET'
     });
-    assert(postStatusRes.data.airGapped === true, 'ClearShield is in AIR-GAPPED state');
-    assert(postStatusRes.data.indicatorColor === 'red', 'Status indicator turned RED (Threat Contained)');
-    assert(postStatusRes.data.smbBlocked === true, 'Port 445 (SMB) blocked to prevent lateral spread');
-    assert(postStatusRes.data.sessionTokenValid === false, 'Session token revoked/invalidated');
-    assert(postStatusRes.data.recordsLost === 0, 'Zero patient records lost (0 records exposed)');
+    assert(airgapStatus.data.airGapped === true, 'Surgical Air-Gap state active');
+    assert(airgapStatus.data.indicatorColor === 'red', 'Status pill turned RED');
+    assert(airgapStatus.data.smbBlocked === true, 'Port 445 (SMB) blocked to prevent lateral movement');
+    assert(airgapStatus.data.sessionTokenValid === false, 'Session token revoked & invalidated');
+    assert(airgapStatus.data.recordsLost === 0, 'Zero patient records lost');
 
-    // Verify Care Continuity Queue (Phase 4)
+    // Verify Care Continuity Queue Available
     const queueRes = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
       path: '/api/clinic/standby-queue',
       method: 'GET'
     });
-    assert(queueRes.status === 200, 'Care Continuity Standby Queue available');
-    assert(queueRes.data.appointments.length > 0, 'Appointments list accessible for paper check-in');
+    assert(queueRes.status === 200, 'Care Continuity offline appointment queue accessible');
+    assert(queueRes.data.appointments.length > 0, 'Emergency queue has pre-cached appointments');
 
-    // Verify Protected Records Blocked During Air-Gap
-    const blockedQueryRes = await request({
+    // Verify Normal Patient Query is Blocked while Air-Gapped
+    const blockedQuery = await request({
       hostname: 'localhost',
       port: PORT_CLINIC,
       path: '/api/clinic/records',
       method: 'GET'
     });
-    assert(blockedQueryRes.status === 403, 'Normal patient records query blocked (HTTP 403) while air-gapped');
+    assert(blockedQuery.status === 403, 'Real patient database query blocked during air-gap');
 
-    // Verify SMS Queue (Phase 5)
+    // Verify Simulated Cellular SMS Spooled for Dr. Taylor
     const smsRes = await request({
       hostname: 'localhost',
       port: PORT_CLEARSHIELD,
       path: '/api/clearshield/sms',
       method: 'GET'
     });
-    assert(smsRes.data.length > 0, 'Simulated Out-Of-Band SMS spooled for Dr. Taylor');
-    assert(smsRes.data[0].to.includes('Dr. Taylor'), 'SMS recipient is Dr. Taylor');
+    assert(smsRes.data.length > 0, 'Simulated Out-of-band cellular SMS spooled');
+    assert(smsRes.data[0].to.includes('Dr. Taylor'), 'Recipient is Dr. Taylor');
 
-    // 6. Phase 7: Audit Report & System Restoration
-    console.log('\n--- Phase 7: Audit Report & Restoration ---');
+    // -------------------------------------------------------------------------
+    // Phase 7: Audit Report & System Restoration
+    // -------------------------------------------------------------------------
+    console.log('\n--- Phase 7: Regulatory Audit Defense & Restoration ---');
     const reportRes = await request({
       hostname: 'localhost',
       port: PORT_CLEARSHIELD,
       path: '/api/clearshield/export-report',
       method: 'GET'
     });
-    assert(reportRes.status === 200, 'Incident audit report export generated');
-    assert(reportRes.data.summary.realRecordsExposed === 0, 'Audit report certifies 0 real records exposed');
+    assert(reportRes.status === 200, 'Security incident defense report generated');
+    assert(reportRes.data.summary.realRecordsExposed === 0, 'Report certifies 0 real records exposed');
 
     const restoreRes = await request({
       hostname: 'localhost',
@@ -201,13 +271,13 @@ async function runTests() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
     }, { adminUser: 'Dr. Taylor (Chief Medical Officer)' });
-    assert(restoreRes.status === 200, 'System restoration authorized and successful');
+    assert(restoreRes.status === 200, 'System restoration authorized by Dr. Taylor');
     assert(restoreRes.data.status.airGapped === false, 'Air-gap cleared');
-    assert(restoreRes.data.status.indicatorColor === 'green', 'Ambient status restored to GREEN: "ClearShield Active: All Systems Normal"');
+    assert(restoreRes.data.status.indicatorColor === 'green', 'Status restored to Green: "ClearShield is Active – All Systems Normal"');
 
-    console.log('\n====================================================');
+    console.log('\n================================================================');
     console.log(`TEST SUMMARY: ${passed} PASSED, ${failed} FAILED`);
-    console.log('====================================================\n');
+    console.log('================================================================\n');
 
     process.exit(failed > 0 ? 1 : 0);
   } catch (err) {

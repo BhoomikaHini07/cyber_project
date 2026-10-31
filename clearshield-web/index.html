@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ClearShield – Cybersecurity & Canary Trap Command Center</title>
+  <title>ClearShield – Healthcare Cybersecurity Platform</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,26 +14,25 @@
       <span class="brand-icon">🛡️</span>
       <div class="brand-info">
         <h1>ClearShield</h1>
-        <span>Canary Trap Defense</span>
+        <span>Cybersecurity Platform</span>
       </div>
     </div>
 
-    <div class="nav-section-title">Canary & Honeypot</div>
+    <div class="nav-section-title">Navigation Pages</div>
     <ul class="nav-list">
-      <li><button class="nav-item active" data-view="system-status"><span>⚡ 1. System Status</span></button></li>
-      <li><button class="nav-item" data-view="canary-status"><span>🪤 2. Canary Trap Status</span></button></li>
-      <li><button class="nav-item" data-view="suspicious-activity"><span>👁️ 3. Suspicious Activity</span><span class="badge" id="badge-suspicious">0</span></button></li>
-      <li><button class="nav-item" data-view="blocked-requests"><span>🚫 4. Blocked Requests</span><span class="badge" id="badge-blocked">0</span></button></li>
-      <li><button class="nav-item" data-view="admin-alerts"><span>📲 5. Administrator Alerts</span><span class="badge" id="badge-alerts">0</span></button></li>
-      <li><button class="nav-item" data-view="incident-history"><span>📜 6. Incident History</span></button></li>
-      <li><button class="nav-item" data-view="restore-system"><span>🔄 7. Restore System</span></button></li>
-      <li><button class="nav-item" data-view="scenario-lab"><span>🧪 Demonstration Lab</span></button></li>
+      <li><button class="nav-item active" data-view="page-1-main"><span>🏠 1. Main Dashboard</span></button></li>
+      <li><button class="nav-item" data-view="page-2-threats"><span>👁️ 2. Threat Monitoring</span><span class="badge" id="badge-threats">0</span></button></li>
+      <li><button class="nav-item" data-view="page-3-honeypot"><span>🪤 3. Honeypot Monitoring</span><span class="badge" id="badge-honeypot">0</span></button></li>
+      <li><button class="nav-item" data-view="page-4-dataprotect"><span>🔒 4. Data Protection</span><span class="badge" id="badge-dataprotect">0</span></button></li>
+      <li><button class="nav-item" data-view="page-5-auth"><span>🔑 5. Authentication</span><span class="badge" id="badge-auth">0</span></button></li>
+      <li><button class="nav-item" data-view="page-6-incidents"><span>📜 6. Incident History</span><span class="badge" id="badge-incidents">0</span></button></li>
+      <li><button class="nav-item" data-view="page-7-emergency"><span>🚨 7. Emergency Response</span></button></li>
+      <li><button class="nav-item" data-view="page-8-reports"><span>📑 8. Security Reports</span></button></li>
+      <li><button class="nav-item" data-view="page-scenarios"><span>🧪 6-Scenario Test Lab</span></button></li>
     </ul>
 
     <div class="nav-section-title">ClearShield Core</div>
     <ul class="nav-list">
-      <li><button class="nav-item" data-view="core-overview"><span>📊 Overview & Charts</span></button></li>
-      <li><button class="nav-item" data-view="core-alerts"><span>⚠️ Security Alerts</span></button></li>
       <li><button class="nav-item" data-view="core-guided"><span>🧭 Guided Actions (6-Pt)</span></button></li>
       <li><button class="nav-item" data-view="core-settings"><span>⚙️ Rule Settings</span></button></li>
       <li><button class="nav-item" data-view="core-csv"><span>📁 CSV Dataset Tools</span></button></li>
@@ -42,11 +41,11 @@
 
     <div class="sidebar-footer">
       <a href="http://localhost:5001" target="_blank" class="clinic-portal-btn" id="open-clinic-link">
-        <span>🏥 Open Clinic Portal</span>
+        <span>🏥 Open Sample Clinic Website</span>
         <span>↗</span>
       </a>
       <div style="font-size: 10px; color: #64748b; margin-top: 8px; text-align: center;">
-        Separate Frontend · Shared Backend
+        Port 5001 (Clinic) · Port 5000 (ClearShield)
       </div>
     </div>
   </aside>
@@ -58,23 +57,23 @@
       <div class="header-status">
         <div id="ambient-status-pill" class="status-pill">
           <span class="pulse-dot"></span>
-          <span id="ambient-status-text">ClearShield Active: All Systems Normal</span>
+          <span id="ambient-status-text">ClearShield is Active – All Systems Normal</span>
         </div>
-        <span class="tag tag-green" id="trap-state-tag">Row 0 Canary Armed</span>
+        <span class="tag tag-green" id="clinic-conn-tag">🟢 Clinic Connected (Port 5001)</span>
       </div>
 
       <div class="header-metrics">
         <div class="metric-pill">
           <span>Decoy Latency:</span>
-          <b id="metric-latency">&lt; 15ms (1.2ms)</b>
+          <b id="metric-latency">&lt; 15ms (1.25ms)</b>
         </div>
         <div class="metric-pill">
           <span>Port 445 (SMB):</span>
-          <b id="metric-smb" style="color:#10b981;">Active</b>
+          <b id="metric-smb" style="color:#059669;">Active (Monitored)</b>
         </div>
         <div class="metric-pill">
           <span>Records Lost:</span>
-          <b id="metric-lost" style="color:#10b981;">0 (Zero)</b>
+          <b id="metric-lost" style="color:#059669;">0 (Zero records lost)</b>
         </div>
         <button class="btn btn-secondary" onclick="exportIncidentReport('json')">
           📥 Export Audit Report
@@ -84,7 +83,7 @@
 
     <!-- CONTENT DISPLAY AREA -->
     <div class="content-scroll" id="view-container">
-      <!-- Dynamic Views Injected Here -->
+      <!-- Injected dynamically via dashboard.js -->
     </div>
   </main>
 
