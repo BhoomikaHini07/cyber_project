@@ -119,7 +119,7 @@ function quickLoginRole(role) {
 function setDashboardProfile(name, role, subtitle, avatarInitial) {
   document.getElementById('dash-user-name').innerHTML = `
     <span>${name}</span>
-    <span class="badge ${role === 'Doctor' ? 'badge-purple' : role === 'Reception' ? 'badge-green' : 'badge-blue'}" id="dash-role-badge">
+    <span class="badge ${role === 'Doctor' ? 'badge-olive' : role === 'Reception' ? 'badge-green' : 'badge-blue'}" id="dash-role-badge">
       ${role}
     </span>
   `;
@@ -364,7 +364,7 @@ function renderReceptionPatientCards() {
           <span>🕒 ${aptTime}</span>
           <span>🩺 ${p.doctor}</span>
           <span>🚪 ${p.room}</span>
-          <span style="color:#0f766e; font-weight:600;">${p.condition}</span>
+          <span style="color:var(--olive-primary); font-weight:600;">${p.condition}</span>
         </div>
       `;
     }
@@ -548,7 +548,7 @@ function renderDoctorDashboard() {
         </div>
         <div class="card-item-details">
           <span>🚪 ${p.room}</span>
-          <span style="color:#0f766e; font-weight:600;">${p.condition}</span>
+          <span style="color:var(--olive-primary); font-weight:600;">${p.condition}</span>
         </div>
       `;
       patListContainer.appendChild(card);
@@ -710,14 +710,14 @@ function saveDoctorClinicalNote() {
   const newEvent = document.createElement('div');
   newEvent.className = 'timeline-event';
   newEvent.innerHTML = `
-    <div class="timeline-node today-node" style="border-color:#10b981; background:#ecfdf5;"></div>
-    <div class="timeline-content" style="border-color:#a7f3d0; background:#f0fdf4;">
+    <div class="timeline-node today-node"></div>
+    <div class="timeline-content" style="border-color:var(--light-green-border); background:var(--light-green-tint);">
       <div class="timeline-header">
-        <span class="timeline-day" style="color:#065f46;">Just Now (${activeDoctor})</span>
+        <span class="timeline-day" style="color:var(--olive-deep);">Just Now (${activeDoctor})</span>
         <span class="badge badge-green">Appended Note</span>
       </div>
       <div class="timeline-title">Physician Progress Remark</div>
-      <p class="timeline-desc" style="color:#065f46;">${noteText}</p>
+      <p class="timeline-desc" style="color:var(--olive-dark);">${noteText}</p>
     </div>
   `;
 

@@ -16,7 +16,7 @@
       <span class="clinic-logo">🏥</span>
       <div class="clinic-title">
         <h1>Clinic Guard</h1>
-        <p>Intelligent Healthcare Portal &amp; Clinical Management · Protected by ClearShield</p>
+        <p>Clinical Healthcare Portal &amp; Records Defense · Protected by ClearShield</p>
       </div>
     </div>
 
@@ -29,26 +29,26 @@
 
       <!-- Auth Action Buttons (Landing Mode) -->
       <div id="header-auth-buttons">
-        <button class="btn btn-outline" id="btn-demo-reception" onclick="quickLoginRole('reception')">
+        <button class="btn btn-outline btn-sm" id="btn-demo-reception" onclick="quickLoginRole('reception')">
           🛎️ Demo Reception
         </button>
-        <button class="btn btn-outline" id="btn-demo-doctor" onclick="quickLoginRole('doctor')">
+        <button class="btn btn-outline btn-sm" id="btn-demo-doctor" onclick="quickLoginRole('doctor')">
           🩺 Demo Doctor
         </button>
-        <button class="btn btn-outline" id="btn-patient-login" onclick="openLoginModal()">
+        <button class="btn btn-outline btn-sm" id="btn-patient-login" onclick="openLoginModal()">
           👤 Sign In
         </button>
-        <button class="btn btn-primary" id="btn-patient-register" onclick="openRegisterModal()">
+        <button class="btn btn-primary btn-sm" id="btn-patient-register" onclick="openRegisterModal()">
           ✍️ Sign Up
         </button>
       </div>
 
       <!-- Authenticated User Profile Badge (Dashboard Mode) -->
       <div id="logged-user-badge" style="display:none; align-items:center; gap:8px;">
-        <span style="font-size:12px; font-weight:700; color:#0f766e; background:#d1fae5; padding:6px 14px; border-radius:99px; border:1px solid #a7f3d0; display:inline-flex; align-items:center; gap:6px;">
+        <span class="badge badge-green" style="padding:5px 12px; font-size:11.5px;">
           <span id="logged-user-name">Receptionist Jane</span>
         </span>
-        <button class="btn btn-outline btn-sm" onclick="logoutClinicUser()" style="color:#991b1b; border-color:#fecdd3;">
+        <button class="btn btn-outline btn-sm" onclick="logoutClinicUser()" style="color:var(--status-rose-text); border-color:var(--status-rose-border);">
           ✕ Sign Out
         </button>
       </div>
@@ -93,7 +93,7 @@
         <div class="landing-hero-content">
           <div class="landing-badge">
             <span>🛡️</span>
-            <span>Next-Generation Healthcare Management &amp; Zero-Trust Defense</span>
+            <span>Healthcare Management &amp; Zero-Trust Defense</span>
           </div>
 
           <h1 class="landing-title">
@@ -101,17 +101,17 @@
           </h1>
 
           <p class="landing-desc">
-            Clinic Guard combines a rapid-response reception desk, a high-fidelity doctor clinical workspace with 7-day patient history, and integrated ClearShield honeypot protection to safeguard patient records at all times.
+            Clinic Guard combines an intuitive reception desk, an attentive doctor clinical workspace with 7-day patient history, and integrated ClearShield honeypot protection to safeguard patient records at all times.
           </p>
 
           <div class="landing-cta-group">
-            <button class="btn btn-primary" style="padding:12px 22px; font-size:14px;" onclick="quickLoginRole('reception')">
+            <button class="btn btn-primary" onclick="quickLoginRole('reception')">
               🛎️ Enter Reception Desk
             </button>
-            <button class="btn btn-purple" style="padding:12px 22px; font-size:14px;" onclick="quickLoginRole('doctor')">
+            <button class="btn btn-purple" onclick="quickLoginRole('doctor')">
               🩺 Enter Doctor Workspace
             </button>
-            <button class="btn btn-outline" style="padding:12px 22px; font-size:14px;" onclick="openLoginModal()">
+            <button class="btn btn-outline" onclick="openLoginModal()">
               👤 Patient Portal &amp; Passkeys
             </button>
           </div>
@@ -124,11 +124,11 @@
             </div>
             <div class="metric-item">
               <b>3</b>
-              <span>On-Duty Specialists</span>
+              <span>Attending Physicians</span>
             </div>
             <div class="metric-item">
-              <b style="color:#10b981;">0 Breaches</b>
-              <span>Canary Air-Gap Active</span>
+              <b style="color:var(--olive-primary);">0 Breaches</b>
+              <span>Air-Gap Guard Active</span>
             </div>
           </div>
         </div>
@@ -137,11 +137,11 @@
         <div class="landing-visual-wrap">
           <img src="assets/clinic_guard_hero.jpg" alt="Clinic Guard Modern Healthcare Facility" class="landing-illustration">
           <div class="visual-floating-badge">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <span style="font-size:22px;">🏥</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">🏥</span>
               <div>
-                <b style="font-size:13px; color:#0f172a; display:block;">Oakridge Health Community Center</b>
-                <span style="font-size:11px; color:#64748b;">Walk-In Triage · Specialized Care · 24/7 Monitored</span>
+                <b style="font-size:12px; color:var(--olive-deep); display:block;">Oakridge Community Health Center</b>
+                <span style="font-size:10.5px; color:var(--text-muted);">Triage &amp; Clinical Care · Zero-Trust Monitored</span>
               </div>
             </div>
             <span class="badge badge-green">Operational</span>
@@ -152,8 +152,8 @@
       <!-- ROLE WORKSPACES SHOWCASE -->
       <div class="landing-roles-section">
         <div class="section-header">
-          <h2>Select a Dedicated Workspace</h2>
-          <p>Access the role-tailored dashboard designed for clinical staff and patients</p>
+          <h2>Clinical Workspaces</h2>
+          <p>Access the role-tailored dashboard designed for receptionists, physicians, and patients</p>
         </div>
 
         <div class="role-cards-grid">
@@ -166,7 +166,7 @@
                 Patient lookup, real-time admission registry, appointment scheduling, and offline intake slip spooling with Row 0 canary tripwire security.
               </p>
             </div>
-            <button class="btn btn-teal" style="width:100%; justify-content:center;">
+            <button class="btn btn-light-green" style="width:100%; justify-content:center;">
               Launch Reception Desk ➔
             </button>
           </div>
@@ -177,7 +177,7 @@
               <div class="role-icon-box">🩺</div>
               <h3>Doctor Clinical Workspace</h3>
               <p>
-                Comprehensive physician portal with assigned patient queues, upcoming appointment schedules, prior diagnoses, and 7-day clinical history timeline.
+                Physician portal with assigned patient queues, upcoming appointment schedules, prior diagnoses, and consecutive 7-day clinical history timeline.
               </p>
             </div>
             <button class="btn btn-purple" style="width:100%; justify-content:center;">
@@ -191,7 +191,7 @@
               <div class="role-icon-box">👤</div>
               <h3>Patient Health Portal</h3>
               <p>
-                One-click biometric passkey authentication, personal recovery code verification, authorized prescription history, and upcoming consultation view.
+                Biometric passkey authentication, personal recovery code verification, authorized prescription history, and upcoming consultation view.
               </p>
             </div>
             <button class="btn btn-outline" style="width:100%; justify-content:center;">
@@ -202,15 +202,15 @@
       </div>
 
       <!-- PRE-LOGIN THREAT PROBE DEMO BAR (PART 2 / SCENARIO 2) -->
-      <div class="card" style="padding: 14px 20px; background: #ffffff; border-left: 4px solid var(--pastel-sky-border);">
+      <div class="card" style="border-left: 3px solid var(--olive-primary);">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 10px;">
           <div>
-            <b style="font-size:13px; color:#0f172a;">Pre-Login Threat Probing Simulator (Teammate Feature):</b>
+            <b style="font-size:12.5px; color:var(--olive-deep);">Pre-Login Threat Probing Simulator:</b>
             <span style="font-size:12px; color:var(--text-muted); margin-left:6px;">
               Simulate unauthorized reconnaissance probes against restricted clinic paths without logging in.
             </span>
           </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
             <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/admin')">Probe /admin</button>
             <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/backup')">Probe /backup</button>
             <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/database')">Probe /database</button>
@@ -236,7 +236,7 @@
               <span>Receptionist Jane</span>
               <span class="badge badge-green" id="dash-role-badge">Reception</span>
             </h3>
-            <p id="dash-user-sub">Oakridge Health Clinic · Front Desk Terminal #1</p>
+            <p id="dash-user-sub">Oakridge Community Clinic · Reception Station #1</p>
           </div>
         </div>
 
@@ -256,8 +256,8 @@
           </button>
         </div>
 
-        <!-- Quick Switch or Return to Landing -->
-        <div style="display:flex; gap:8px; align-items:center;">
+        <!-- Return to Landing -->
+        <div style="display:flex; gap:6px; align-items:center;">
           <button class="btn btn-outline btn-sm" onclick="navigateToScreen('landing')" title="Back to Welcome Landing">
             🏠 Home
           </button>
@@ -289,7 +289,7 @@
           </div>
 
           <!-- Reception Quick Actions -->
-          <div style="display:flex; gap:8px;">
+          <div style="display:flex; gap:6px;">
             <button class="btn btn-outline btn-sm" onclick="openPinModal()">🔑 Supervisor PIN</button>
             <button class="btn btn-outline btn-sm" onclick="triggerBulkExport()">📦 Bulk Export</button>
           </div>
@@ -300,9 +300,9 @@
           
           <!-- Left Column: Clickable Patient Card Area -->
           <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <b style="font-size:13px; color:#0f172a;">Patient Admission Roster</b>
-              <span style="font-size:11px; color:#64748b;" id="reception-showing-count">Showing 8 patients</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <b style="font-size:12.5px; color:var(--olive-deep);">Patient Admission Roster</b>
+              <span style="font-size:11px; color:var(--text-muted);" id="reception-showing-count">Showing 8 patients</span>
             </div>
 
             <div class="reception-list-panel" id="reception-patient-cards">
@@ -318,7 +318,7 @@
                 <div class="detail-header-info">
                   <h2 id="detail-patient-name">Arthur Pendelton</h2>
                   <p>
-                    <span id="detail-record-number" class="code-cell" style="font-size:13px;">MED-10492</span> · 
+                    <span id="detail-record-number" class="code-cell">MED-10492</span> · 
                     <span id="detail-patient-id">pat-1</span> · 
                     <span id="detail-patient-status" class="badge badge-green">Checked In</span>
                   </p>
@@ -336,8 +336,8 @@
                   <b id="detail-doctor">Dr. Taylor (Room 1)</b>
                 </div>
                 <div class="detail-info-block">
-                  <label>Date of Birth &amp; Age</label>
-                  <b id="detail-dob">1974-05-12 (52 yrs)</b>
+                  <label>Date of Birth</label>
+                  <b id="detail-dob">1974-05-12</b>
                 </div>
                 <div class="detail-info-block">
                   <label>Phone Contact</label>
@@ -350,11 +350,11 @@
                 <span>🩺</span>
                 <span>Diagnosis &amp; Medical Reason for Visit</span>
               </div>
-              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:18px;">
-                <b id="detail-condition" style="color:#0f766e; font-size:14px; display:block; margin-bottom:4px;">
+              <div style="background:var(--light-green-tint); border:1px solid var(--light-green-border); border-radius:8px; padding:12px; margin-bottom:14px;">
+                <b id="detail-condition" style="color:var(--olive-deep); font-size:13px; display:block; margin-bottom:3px;">
                   Hypertension Routine Follow-up
                 </b>
-                <p id="detail-condition-notes" style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+                <p id="detail-condition-notes" style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
                   Patient presenting for quarterly blood pressure monitoring and medication reconciliation. No reported acute symptoms.
                 </p>
               </div>
@@ -364,7 +364,7 @@
                 <span>💊</span>
                 <span>Active Prescriptions &amp; Dosages</span>
               </div>
-              <div style="overflow-x:auto; margin-bottom:20px;">
+              <div style="overflow-x:auto; margin-bottom:16px;">
                 <table>
                   <thead>
                     <tr>
@@ -381,7 +381,7 @@
               </div>
 
               <!-- Action Buttons -->
-              <div style="display:flex; gap:10px; flex-wrap:wrap; border-top:1px solid #f1f5f9; padding-top:16px;">
+              <div style="display:flex; gap:8px; flex-wrap:wrap; border-top:1px solid #edf2ec; padding-top:14px;">
                 <button class="btn btn-primary" onclick="markPatientCheckedIn()">
                   ✅ Mark Patient Checked In
                 </button>
@@ -399,9 +399,9 @@
           <div class="table-header">
             <div>
               <h3>Reception Patient Admission Registry</h3>
-              <p style="font-size:12px; color:var(--text-muted);">Demonstration patient dataset containing Row 0 Canary Decoy Record.</p>
+              <p style="font-size:11.5px; color:var(--text-muted);">Demonstration patient dataset containing Row 0 Canary Decoy Record.</p>
             </div>
-            <div style="display:flex; gap: 8px;">
+            <div style="display:flex; gap: 6px;">
               <button class="btn btn-outline btn-sm" onclick="triggerScraperCrawl()">🤖 Automated Scraper (Scenario C)</button>
               <button class="btn btn-outline btn-sm" onclick="triggerBulkExport()">📦 Bulk Export (Scenario 5)</button>
             </div>
@@ -431,18 +431,18 @@
         <div class="card" id="care-continuity-card">
           <div class="table-header">
             <h3>📋 Care Continuity – Emergency Appointment Queue</h3>
-            <div style="display:flex; gap: 8px;">
-              <button class="btn btn-primary" onclick="printCheckInSlip()">
+            <div style="display:flex; gap: 6px;">
+              <button class="btn btn-primary btn-sm" onclick="printCheckInSlip()">
                 🖨️ Print Predefined Emergency Appointment Queue
               </button>
             </div>
           </div>
 
-          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
             Demonstrates healthcare continuity: during security incidents, pre-cached appointment schedules and paper check-in forms enable uninterrupted patient care.
           </p>
 
-          <div style="overflow-x: auto; margin-bottom: 20px;">
+          <div style="overflow-x: auto; margin-bottom: 16px;">
             <table>
               <thead>
                 <tr>
@@ -465,8 +465,8 @@
           <div id="printable-checkin-area">
             <div class="paper-form">
               <div class="paper-form-header">
-                <h2 style="font-size: 16px; margin-bottom: 4px;">OAKRIDGE COMMUNITY HEALTH CLINIC</h2>
-                <p style="font-size: 11px; text-transform: uppercase; color: #475569;">
+                <h2 style="font-size: 15px; margin-bottom: 3px; color: var(--olive-deep);">OAKRIDGE COMMUNITY HEALTH CLINIC</h2>
+                <p style="font-size: 10.5px; text-transform: uppercase; color: var(--text-muted);">
                   Continuity of Care · Patient Paper Check-in Slip · HIPAA Safe Offline Intake
                 </p>
               </div>
@@ -490,23 +490,23 @@
                 </div>
               </div>
 
-              <div class="paper-field" style="margin-bottom: 14px;">
+              <div class="paper-field" style="margin-bottom: 12px;">
                 <label>Chief Complaint / Reason for Visit</label>
                 <span id="print-reason">Hypertension Routine Follow-up</span>
               </div>
 
-              <div class="paper-grid" style="margin-top: 18px;">
+              <div class="paper-grid" style="margin-top: 14px;">
                 <div class="paper-field">
                   <label>Triage Nurse Initials</label>
                   <span>RN-42</span>
                 </div>
                 <div class="paper-field">
                   <label>Patient Signature on Paper</label>
-                  <span style="font-family: cursive; font-size: 16px;">A. Pendelton</span>
+                  <span style="font-family: cursive; font-size: 15px;">A. Pendelton</span>
                 </div>
               </div>
 
-              <div style="margin-top: 14px; font-size: 10px; color: #64748b; text-align: center;">
+              <div style="margin-top: 12px; font-size: 10px; color: var(--text-muted); text-align: center;">
                 * Offline Continuity Form generated in accordance with ClearShield Standby Care Protocol.
               </div>
             </div>
@@ -526,32 +526,32 @@
             <div class="doctor-avatar-badge" id="doc-avatar-badge">👨‍⚕️</div>
             <div class="doctor-name-box">
               <h2 id="doc-profile-name">Dr. Taylor, MD</h2>
-              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
                 <span class="doctor-speciality-pill" id="doc-profile-speciality">
                   🩺 Internal Medicine &amp; Primary Care
                 </span>
-                <span style="font-size:11px; color:#cbd5e1;">License: #MD-883921-CA</span>
+                <span style="font-size:11px; color:#d8e5d3;">License: #MD-883921-CA</span>
               </div>
             </div>
           </div>
 
           <!-- Doctor Selector & Live Appointment Time -->
-          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
             <div>
-              <label style="display:block; font-size:10px; text-transform:uppercase; color:#94a3b8; font-weight:700; margin-bottom:4px;">
-                Switch Attending Doctor:
+              <label style="display:block; font-size:9.5px; text-transform:uppercase; color:#c6d9bf; font-weight:600; margin-bottom:3px;">
+                Attending Physician:
               </label>
               <select id="doc-selector" onchange="changeDoctor(this.value)" 
-                style="padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#ffffff; font-family:inherit; font-weight:700; font-size:12px; outline:none; cursor:pointer;">
-                <option value="Dr. Taylor" selected style="color:#0f172a;">Dr. Taylor — Internal Medicine</option>
-                <option value="Dr. Vance" style="color:#0f172a;">Dr. Vance — Allergy &amp; Immunology</option>
-                <option value="Dr. Evans" style="color:#0f172a;">Dr. Evans — Orthopedics &amp; Sports</option>
+                style="padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#ffffff; font-family:inherit; font-weight:600; font-size:11.5px; outline:none; cursor:pointer;">
+                <option value="Dr. Taylor" selected style="color:#1e2c16;">Dr. Taylor — Internal Medicine</option>
+                <option value="Dr. Vance" style="color:#1e2c16;">Dr. Vance — Allergy &amp; Immunology</option>
+                <option value="Dr. Evans" style="color:#1e2c16;">Dr. Evans — Orthopedics &amp; Sports</option>
               </select>
             </div>
 
-            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); padding:8px 16px; border-radius:10px; text-align:right;">
-              <span style="font-size:10px; text-transform:uppercase; color:#94a3b8; display:block; font-weight:700;">Current Clinic Time</span>
-              <b style="font-size:15px; font-family:var(--font-mono); color:#38bdf8;" id="doc-live-clock">09:30 AM</b>
+            <div style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); padding:6px 14px; border-radius:8px; text-align:right;">
+              <span style="font-size:9.5px; text-transform:uppercase; color:#c6d9bf; display:block; font-weight:600;">Clinic Clock</span>
+              <b style="font-size:13.5px; font-family:var(--font-mono); color:#ffffff;" id="doc-live-clock">09:30 AM</b>
             </div>
           </div>
         </div>
@@ -562,7 +562,7 @@
             <div class="doc-stat-icon">📅</div>
             <div class="doc-stat-info">
               <b id="stat-doc-today-count">4</b>
-              <span>Today's Appointments</span>
+              <span>Today's Visits</span>
             </div>
           </div>
           <div class="doc-stat-card">
@@ -576,14 +576,14 @@
             <div class="doc-stat-icon">✅</div>
             <div class="doc-stat-info">
               <b>1</b>
-              <span>Checked In &amp; Ready</span>
+              <span>Checked In</span>
             </div>
           </div>
           <div class="doc-stat-card">
             <div class="doc-stat-icon">🛡️</div>
             <div class="doc-stat-info">
-              <b style="color:#10b981;">Active</b>
-              <span>Zero-Trust Standby Guard</span>
+              <b style="color:var(--olive-primary);">Active</b>
+              <span>Air-Gap Protected</span>
             </div>
           </div>
         </div>
@@ -594,10 +594,10 @@
           <!-- Left Column: Upcoming Appointments & Doctor's Patient List -->
           <div>
             <!-- Upcoming Appointments Card -->
-            <div class="card" style="margin-bottom:20px;">
+            <div class="card" style="margin-bottom:16px;">
               <div class="table-header">
                 <h3>📅 Today's Upcoming Appointments</h3>
-                <span class="badge badge-blue" id="doc-apt-badge">4 Scheduled</span>
+                <span class="badge badge-green" id="doc-apt-badge">4 Scheduled</span>
               </div>
               <div style="overflow-x:auto;">
                 <table>
@@ -622,7 +622,7 @@
                 <h3>👥 Assigned Patients</h3>
                 <span style="font-size:11px; color:var(--text-muted);">Click patient to view chart</span>
               </div>
-              <div id="doc-assigned-patients-list" style="display:flex; flex-direction:column; gap:10px;">
+              <div id="doc-assigned-patients-list" style="display:flex; flex-direction:column; gap:8px;">
                 <!-- Populated dynamically -->
               </div>
             </div>
@@ -631,8 +631,8 @@
           <!-- Right Column: Patient Detail Chart, Previous Records & 7-Day History -->
           <div>
             <div class="card" id="doc-patient-chart-card">
-              <div class="detail-header" style="margin-bottom:14px; padding-bottom:14px;">
-                <div class="detail-avatar" id="doc-chart-avatar" style="background:linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">AP</div>
+              <div class="detail-header" style="margin-bottom:12px; padding-bottom:12px;">
+                <div class="detail-avatar" id="doc-chart-avatar">AP</div>
                 <div class="detail-header-info">
                   <h2 id="doc-chart-name">Arthur Pendelton</h2>
                   <p>
@@ -648,7 +648,7 @@
                 <span>📋</span>
                 <span>Previous Clinical Records &amp; Medications</span>
               </div>
-              <div style="overflow-x:auto; margin-bottom:20px;">
+              <div style="overflow-x:auto; margin-bottom:16px;">
                 <table>
                   <thead>
                     <tr>
@@ -671,9 +671,9 @@
                   <span>📈</span>
                   <span>Patient 7-Day Clinical History Timeline</span>
                 </div>
-                <span class="badge badge-purple">7-Day Continuity Log</span>
+                <span class="badge badge-green">7-Day Continuity Log</span>
               </div>
-              <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+              <p style="font-size:11.5px; color:var(--text-muted); margin-bottom:10px;">
                 Consecutive 7-day chronological milestones tracking vitals, laboratory tests, consultations, and prescription adherence.
               </p>
 
@@ -682,12 +682,12 @@
               </div>
 
               <!-- Quick Doctor Clinical Note Entry -->
-              <div style="margin-top:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
-                <b style="font-size:13px; color:#0f172a; display:block; margin-bottom:8px;">Add Clinical Progress Note</b>
+              <div style="margin-top:16px; background:var(--light-green-tint); border:1px solid var(--light-green-border); border-radius:10px; padding:14px;">
+                <b style="font-size:12px; color:var(--olive-deep); display:block; margin-bottom:6px;">Add Clinical Progress Note</b>
                 <textarea id="doc-note-input" rows="2" placeholder="Record diagnosis remarks, dosage adjustments, or follow-up instructions..." 
-                  style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:12px; resize:vertical; outline:none;"></textarea>
-                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
-                  <button class="btn btn-purple btn-sm" onclick="saveDoctorClinicalNote()">
+                  style="width:100%; padding:8px 10px; border:1px solid var(--olive-border); border-radius:6px; font-family:inherit; font-size:11.5px; resize:vertical; outline:none; background:#ffffff;"></textarea>
+                <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px;">
+                  <button class="btn btn-primary btn-sm" onclick="saveDoctorClinicalNote()">
                     💾 Append to Patient Chart
                   </button>
                 </div>
@@ -701,26 +701,26 @@
       </div>
 
       <!-- ====================================================================
-           SCREEN 5 — PATIENT PORTAL VIEW (Preserved from Phase 1)
+           SCREEN 5 — PATIENT PORTAL VIEW
            ==================================================================== -->
       <div id="view-patient" class="role-view">
-        <div class="card" id="patient-portal-card" style="border: 2px solid #a7f3d0; background: #ffffff;">
+        <div class="card" id="patient-portal-card" style="border: 1px solid var(--light-green-border); background: #ffffff;">
           <div class="table-header">
             <div>
-              <h3 style="color:#0f766e;">My Personal Health Portal – <span id="portal-patient-name">Arthur Pendelton</span></h3>
-              <p style="font-size:12px; color:var(--text-muted);">
+              <h3 style="color:var(--olive-deep);">My Personal Health Portal – <span id="portal-patient-name">Arthur Pendelton</span></h3>
+              <p style="font-size:11.5px; color:var(--text-muted);">
                 Identity verified via Passkey / Authenticated Session. Authorized for personal health records only.
               </p>
             </div>
-            <div style="display:flex; gap: 10px;">
-              <button class="btn btn-danger" onclick="attemptCrossPatientIDOR()">
+            <div style="display:flex; gap: 8px;">
+              <button class="btn btn-danger btn-sm" onclick="attemptCrossPatientIDOR()">
                 ⚡ Attempt Cross-Patient IDOR Query (Scenario 3)
               </button>
             </div>
           </div>
 
           <!-- Prescriptions Section -->
-          <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Previously Prescribed Medicines</h4>
+          <h4 style="font-size: 13px; margin-bottom: 8px; color:var(--olive-deep);">My Previously Prescribed Medicines</h4>
           <div style="overflow-x: auto; margin-bottom: 16px;">
             <table>
               <thead>
@@ -740,7 +740,7 @@
           </div>
 
           <!-- Upcoming Appointments -->
-          <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Scheduled Appointments</h4>
+          <h4 style="font-size: 13px; margin-bottom: 8px; color:var(--olive-deep);">My Scheduled Appointments</h4>
           <div style="overflow-x: auto;">
             <table>
               <thead>
@@ -760,16 +760,15 @@
       </div>
 
       <!-- ====================================================================
-           SCREEN 6 — SECURITY TOOLS & HONEYPOT DECOYS (Teammate Features)
+           SCREEN 6 — SECURITY TOOLS & HONEYPOT DECOYS
            ==================================================================== -->
       <div id="view-security" class="role-view">
-        <!-- DOCUMENT REPOSITORY & HONEYPOT DECOY FILES (PART 3 / SCENARIO 4) -->
         <div class="card">
           <div class="table-header">
             <h3>📁 Clinic Document Repository &amp; Decoy Canary Files</h3>
             <span class="tag tag-yellow">Honeypot Decoy Monitored</span>
           </div>
-          <p style="font-size:13px; color:var(--text-muted); margin-bottom: 14px;">
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom: 12px;">
             Normal public clinic documents can be downloaded safely. Confidential decoy files contain honeypot tripwires that arrest automated downloads before delivery.
           </p>
 
@@ -802,37 +801,37 @@
 
   <!-- MODAL: PATIENT LOGIN & REGISTRATION -->
   <div class="modal-overlay" id="login-modal">
-    <div class="modal-box" style="max-width: 520px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+    <div class="modal-box" style="max-width: 480px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
         <h3 style="margin:0;"><span id="auth-modal-title">Patient Authentication Portal</span></h3>
-        <button style="all:unset; cursor:pointer; font-size:16px; color:#64748b;" onclick="closeLoginModal()">✕</button>
+        <button style="all:unset; cursor:pointer; font-size:15px; color:var(--text-muted);" onclick="closeLoginModal()">✕</button>
       </div>
 
       <!-- Tab Buttons: Login vs Register -->
-      <div style="display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
-        <button class="btn btn-primary" id="tab-login-btn" onclick="switchAuthTab('login')">Sign In</button>
-        <button class="btn btn-outline" id="tab-register-btn" onclick="switchAuthTab('register')">New Patient Registration</button>
+      <div style="display:flex; gap:6px; margin-bottom:14px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
+        <button class="btn btn-primary btn-sm" id="tab-login-btn" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="btn btn-outline btn-sm" id="tab-register-btn" onclick="switchAuthTab('register')">New Patient Registration</button>
       </div>
 
       <!-- LOGIN FORM -->
       <div id="login-form-area">
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Email Address</label>
-          <input type="email" id="login-email" value="arthur.pendelton@example.com" style="width:100%; padding:9px 12px; border:1px solid var(--card-border); border-radius:8px;">
+        <div style="margin-bottom:10px;">
+          <label style="display:block; font-size:11px; margin-bottom:3px; font-weight:600; color:var(--olive-deep);">Email Address</label>
+          <input type="email" id="login-email" value="arthur.pendelton@example.com" style="width:100%; padding:8px 11px; border:1px solid var(--olive-border); border-radius:6px; font-size:12px; outline:none;">
         </div>
-        <div style="margin-bottom:14px;">
-          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Password</label>
-          <input type="password" id="login-password" value="Password123!" style="width:100%; padding:9px 12px; border:1px solid var(--card-border); border-radius:8px;">
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:11px; margin-bottom:3px; font-weight:600; color:var(--olive-deep);">Password</label>
+          <input type="password" id="login-password" value="Password123!" style="width:100%; padding:8px 11px; border:1px solid var(--olive-border); border-radius:6px; font-size:12px; outline:none;">
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
           <button class="btn btn-primary" onclick="submitPasswordLogin()">
             🔑 Log In with Password
           </button>
-          <button class="btn btn-outline" style="background:var(--pastel-lavender); color:var(--pastel-lavender-text); border-color:var(--pastel-lavender-border);" onclick="submitPasskeyLogin()">
+          <button class="btn btn-light-green" onclick="submitPasskeyLogin()">
             ⚡ One-Click Biometric Passkey Login (TouchID / FaceID)
           </button>
-          <button class="btn btn-outline" style="font-size:11px;" onclick="showRecoveryLoginPrompt()">
+          <button class="btn btn-outline btn-sm" onclick="showRecoveryLoginPrompt()">
             🔒 Log in using Personal Recovery Code
           </button>
         </div>
@@ -840,25 +839,25 @@
 
       <!-- REGISTRATION FORM -->
       <div id="register-form-area" style="display:none;">
-        <div style="margin-bottom:10px;">
-          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Full Legal Name</label>
-          <input type="text" id="reg-name" placeholder="e.g. Arthur Pendelton" style="width:100%; padding:9px 12px; border:1px solid var(--card-border); border-radius:8px;">
+        <div style="margin-bottom:9px;">
+          <label style="display:block; font-size:11px; margin-bottom:3px; font-weight:600; color:var(--olive-deep);">Full Legal Name</label>
+          <input type="text" id="reg-name" placeholder="e.g. Arthur Pendelton" style="width:100%; padding:8px 11px; border:1px solid var(--olive-border); border-radius:6px; font-size:12px; outline:none;">
+        </div>
+        <div style="margin-bottom:9px;">
+          <label style="display:block; font-size:11px; margin-bottom:3px; font-weight:600; color:var(--olive-deep);">Email Address</label>
+          <input type="email" id="reg-email" placeholder="patient@example.com" style="width:100%; padding:8px 11px; border:1px solid var(--olive-border); border-radius:6px; font-size:12px; outline:none;">
         </div>
         <div style="margin-bottom:10px;">
-          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Email Address</label>
-          <input type="email" id="reg-email" placeholder="patient@example.com" style="width:100%; padding:9px 12px; border:1px solid var(--card-border); border-radius:8px;">
-        </div>
-        <div style="margin-bottom:12px;">
-          <label style="display:block; font-size:12px; margin-bottom:4px; font-weight:600;">Account Password</label>
-          <input type="password" id="reg-password" placeholder="Create secure password" style="width:100%; padding:9px 12px; border:1px solid var(--card-border); border-radius:8px;">
+          <label style="display:block; font-size:11px; margin-bottom:3px; font-weight:600; color:var(--olive-deep);">Account Password</label>
+          <input type="password" id="reg-password" placeholder="Create secure password" style="width:100%; padding:8px 11px; border:1px solid var(--olive-border); border-radius:6px; font-size:12px; outline:none;">
         </div>
 
-        <div style="margin-bottom:14px; background:var(--pastel-lavender); padding:10px 14px; border-radius:8px; border:1px solid var(--pastel-lavender-border);">
-          <label style="display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; color:var(--pastel-lavender-text); cursor:pointer;">
+        <div style="margin-bottom:12px; background:var(--light-green-tint); padding:9px 12px; border-radius:7px; border:1px solid var(--light-green-border);">
+          <label style="display:flex; align-items:center; gap:7px; font-size:11px; font-weight:600; color:var(--olive-deep); cursor:pointer;">
             <input type="checkbox" id="reg-passkey-check" checked>
             <span>Register a Biometric Passkey (FIDO2 / TouchID / FaceID)</span>
           </label>
-          <p style="font-size:11px; color:#5b21b6; margin-top:4px;">
+          <p style="font-size:10.5px; color:var(--olive-muted); margin-top:3px;">
             Allows instantaneous biometric sign-in without typing passwords.
           </p>
         </div>
@@ -869,15 +868,15 @@
       </div>
 
       <!-- RECOVERY CODE DISPLAY BOX -->
-      <div id="recovery-code-display" style="display:none; background:#ecfdf5; border:2px dashed #059669; border-radius:10px; padding:16px; margin-top:14px;">
-        <h4 style="color:#065f46; margin-bottom:6px;">🔐 Your Personal Recovery Code</h4>
-        <p style="font-size:12px; color:#047857; line-height:1.5; margin-bottom:10px;">
+      <div id="recovery-code-display" style="display:none; background:var(--light-green-badge-bg); border:1.5px dashed var(--olive-primary); border-radius:8px; padding:14px; margin-top:12px;">
+        <h4 style="color:var(--olive-deep); margin-bottom:5px; font-size:13px;">🔐 Your Personal Recovery Code</h4>
+        <p style="font-size:11.5px; color:var(--olive-dark); line-height:1.45; margin-bottom:9px;">
           Save this personal recovery code in a safe place. You can use it to log in securely if you ever lose your passkey. <b>This code is private and will never be shown to other users.</b>
         </p>
-        <div style="background:#ffffff; padding:10px; border-radius:6px; border:1px solid #a7f3d0; text-align:center; font-family:monospace; font-size:16px; font-weight:700; color:#0f766e;" id="displayed-recovery-code">
+        <div style="background:#ffffff; padding:9px; border-radius:5px; border:1px solid var(--light-green-border); text-align:center; font-family:var(--font-mono); font-size:14px; font-weight:700; color:var(--olive-primary);" id="displayed-recovery-code">
           CS-RECOV-XXXX-XXXX-XXXX
         </div>
-        <button class="btn btn-primary" style="width:100%; margin-top:12px;" onclick="acknowledgeRecoveryCode()">
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="acknowledgeRecoveryCode()">
           I Have Saved My Recovery Code ➔ Enter Portal
         </button>
       </div>
@@ -896,11 +895,11 @@
         If you are an authorized receptionist who clicked this row by accident, click <b>"Safe Cancel"</b>. ClearShield will log the cancellation as a safe routine action with <b>zero alarms</b>.
       </p>
       <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closeAccidentalClickModal()">Dismiss</button>
-        <button class="btn btn-primary" onclick="confirmSafeCancel()">
+        <button class="btn btn-outline btn-sm" onclick="closeAccidentalClickModal()">Dismiss</button>
+        <button class="btn btn-primary btn-sm" onclick="confirmSafeCancel()">
           🟢 Safe Cancel (Scenario A – No Alarm)
         </button>
-        <button class="btn btn-danger" onclick="confirmTripwireBreach()">
+        <button class="btn btn-danger btn-sm" onclick="confirmTripwireBreach()">
           ⚡ Force Breach Tripwire (Scenario C)
         </button>
       </div>
@@ -917,17 +916,17 @@
       <p>
         Enter supervisor PIN to authenticate administrative privileges. Repeated failed entries will be flagged by ClearShield as suspicious brute-force activity.
       </p>
-      <div style="margin-bottom: 16px;">
+      <div style="margin-bottom: 14px;">
         <input type="password" id="pin-input" placeholder="Enter PIN (Demo Supervisor PIN: 4829)" 
-          style="width: 100%; padding: 10px; border: 1px solid var(--card-border); border-radius: 6px; font-size: 15px;">
-        <div id="pin-error" style="color: #dc2626; font-size: 12px; margin-top: 6px; display: none;"></div>
+          style="width: 100%; padding: 8px 12px; border: 1px solid var(--olive-border); border-radius: 6px; font-size: 13px; outline:none;">
+        <div id="pin-error" style="color: var(--status-rose-text); font-size: 11.5px; margin-top: 5px; display: none;"></div>
       </div>
       <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
-        <button class="btn btn-danger" onclick="simulateBadPin()">
+        <button class="btn btn-outline btn-sm" onclick="closePinModal()">Cancel</button>
+        <button class="btn btn-danger btn-sm" onclick="simulateBadPin()">
           ⚡ Enter Wrong PIN (Simulate Guessing)
         </button>
-        <button class="btn btn-primary" onclick="submitPin()">Verify</button>
+        <button class="btn btn-primary btn-sm" onclick="submitPin()">Verify</button>
       </div>
     </div>
   </div>
