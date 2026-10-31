@@ -12,7 +12,7 @@ const API_BASE = window.location.origin;
 // Application State
 let currentScreen = 'landing'; // 'landing' | 'dashboard'
 let currentRole = 'reception'; // 'reception' | 'doctor' | 'patient' | 'security'
-let activeDoctor = 'Dr. Taylor'; // 'Dr. Taylor' | 'Dr. Vance' | 'Dr. Evans'
+let activeDoctor = 'Dr. Gersinho Lima'; // 'Dr. Gersinho Lima' | 'Dr. Taylor' | 'Dr. Vance' | 'Dr. Evans'
 
 // Clinical Data Collections
 let patientRecords = [];
@@ -31,25 +31,33 @@ let currentSessionToken = null;
 
 // Synthetic Clinical Prescriptions Store (Pre-cached from backend/data/prescriptions.json)
 const DEFAULT_PRESCRIPTIONS = [
-  { id: "rx-101", patientId: "pat-1", patientName: "Arthur Pendelton", medication: "Lisinopril", dosage: "10 mg daily", prescribedDate: "2026-08-14", doctor: "Dr. Taylor", refills: 3, status: "Active", notes: "Take in morning for hypertension control." },
-  { id: "rx-102", patientId: "pat-1", patientName: "Arthur Pendelton", medication: "Atorvastatin", dosage: "20 mg at bedtime", prescribedDate: "2026-09-01", doctor: "Dr. Taylor", refills: 2, status: "Active", notes: "Cholesterol management." },
+  { id: "rx-101", patientId: "pat-1", patientName: "Arthur Pendelton", medication: "Lisinopril", dosage: "10 mg daily", prescribedDate: "2026-08-14", doctor: "Dr. Gersinho Lima", refills: 3, status: "Active", notes: "Take in morning for hypertension control." },
+  { id: "rx-102", patientId: "pat-1", patientName: "Arthur Pendelton", medication: "Atorvastatin", dosage: "20 mg at bedtime", prescribedDate: "2026-09-01", doctor: "Dr. Gersinho Lima", refills: 2, status: "Active", notes: "Cholesterol management." },
   { id: "rx-103", patientId: "pat-2", patientName: "Elena Rostova", medication: "Cetirizine HCl", dosage: "10 mg daily PRN", prescribedDate: "2026-07-22", doctor: "Dr. Vance", refills: 4, status: "Active", notes: "For seasonal allergic rhinitis." },
   { id: "rx-104", patientId: "pat-2", patientName: "Elena Rostova", medication: "Fluticasone Propionate", dosage: "50 mcg daily", prescribedDate: "2026-08-10", doctor: "Dr. Vance", refills: 2, status: "Active", notes: "Anti-inflammatory nasal spray." },
-  { id: "rx-105", patientId: "pat-3", patientName: "Marcus Holloway", medication: "Metformin HCl", dosage: "500 mg twice daily", prescribedDate: "2026-06-15", doctor: "Dr. Taylor", refills: 5, status: "Active", notes: "Glycemic control for Type 2 Diabetes." },
+  { id: "rx-105", patientId: "pat-3", patientName: "Marcus Holloway", medication: "Metformin HCl", dosage: "500 mg twice daily", prescribedDate: "2026-06-15", doctor: "Dr. Gersinho Lima", refills: 5, status: "Active", notes: "Glycemic control for Type 2 Diabetes." },
   { id: "rx-106", patientId: "pat-4", patientName: "Sophia Chen", medication: "Ibuprofen", dosage: "600 mg every 8 hrs PRN", prescribedDate: "2026-10-20", doctor: "Dr. Evans", refills: 1, status: "Active", notes: "Pain relief for wrist sprain." },
-  { id: "rx-107", patientId: "pat-5", patientName: "David Kim", medication: "Vitamin D3", dosage: "2000 IU daily", prescribedDate: "2026-05-12", doctor: "Dr. Taylor", refills: 6, status: "Active", notes: "Wellness supplement." },
-  { id: "rx-108", patientId: "pat-8", patientName: "Chloe Bennett", medication: "Albuterol Inhaler", dosage: "90 mcg, 2 puffs PRN", prescribedDate: "2026-09-18", doctor: "Dr. Taylor", refills: 3, status: "Active", notes: "Use before exertion or asthma symptoms." }
+  { id: "rx-107", patientId: "pat-5", patientName: "David Kim", medication: "Vitamin D3", dosage: "2000 IU daily", prescribedDate: "2026-05-12", doctor: "Dr. Gersinho Lima", refills: 6, status: "Active", notes: "Wellness supplement." },
+  { id: "rx-108", patientId: "pat-8", patientName: "Chloe Bennett", medication: "Albuterol Inhaler", dosage: "90 mcg, 2 puffs PRN", prescribedDate: "2026-09-18", doctor: "Dr. Gersinho Lima", refills: 3, status: "Active", notes: "Use before exertion or asthma symptoms." }
 ];
 
 // Doctor Profiles Information
 const DOCTOR_PROFILES = {
-  'Dr. Taylor': {
-    name: 'Dr. Taylor, MD',
-    speciality: 'Internal Medicine & Preventive Cardiology',
+  'Dr. Gersinho Lima': {
+    name: 'Dr. Gersinho Lima, MD',
+    speciality: 'Internal Medicine & Clinical Direction',
     room: 'Exam Room 1',
     avatar: '👨‍⚕️',
     license: '#MD-883921-CA',
-    bio: 'Chief of Clinical Services with 15+ years managing cardiovascular & metabolic health.'
+    bio: 'Lead Physician and Clinical Director managing internal medicine and patient care continuity.'
+  },
+  'Dr. Taylor': {
+    name: 'Dr. Taylor, MD',
+    speciality: 'Preventive Cardiology & Internal Medicine',
+    room: 'Exam Room 1',
+    avatar: '👨‍⚕️',
+    license: '#MD-883922-CA',
+    bio: 'Cardiovascular & metabolic health specialist.'
   },
   'Dr. Vance': {
     name: 'Dr. Vance, MD',
@@ -109,7 +117,8 @@ function quickLoginRole(role) {
     setDashboardProfile('Receptionist Jane', 'Reception', 'Oakridge Community Clinic · Reception Station #1', 'J');
     switchClinicRole('reception');
   } else if (role === 'doctor') {
-    setDashboardProfile(DOCTOR_PROFILES[activeDoctor].name, 'Doctor', `${DOCTOR_PROFILES[activeDoctor].speciality} · ${DOCTOR_PROFILES[activeDoctor].room}`, 'DT');
+    const avatarInit = DOCTOR_PROFILES[activeDoctor].name.includes('Gersinho') ? 'GL' : 'DT';
+    setDashboardProfile(DOCTOR_PROFILES[activeDoctor].name, 'Doctor', `${DOCTOR_PROFILES[activeDoctor].speciality} · ${DOCTOR_PROFILES[activeDoctor].room}`, avatarInit);
     switchClinicRole('doctor');
   } else if (role === 'patient') {
     switchClinicRole('patient');
@@ -493,8 +502,18 @@ function renderDoctorDashboard() {
   if (!doc) return;
 
   // Filter Doctor's appointments
-  const doctorAppointments = standbyQueue.filter(a => a.doctor === activeDoctor || a.doctor.includes(activeDoctor.replace('Dr. ', '')));
-  const doctorPatients = patientRecords.filter(p => !p.isCanary && (p.doctor === activeDoctor || p.doctor.includes(activeDoctor.replace('Dr. ', ''))));
+  const doctorAppointments = standbyQueue.filter(a => 
+    a.doctor === activeDoctor || 
+    (activeDoctor === 'Dr. Gersinho Lima' && (a.doctor === 'Dr. Taylor' || a.doctor === 'Dr. Gersinho Lima')) ||
+    a.doctor.includes(activeDoctor.replace('Dr. ', ''))
+  );
+  const doctorPatients = patientRecords.filter(p => 
+    !p.isCanary && (
+      p.doctor === activeDoctor || 
+      (activeDoctor === 'Dr. Gersinho Lima' && (p.doctor === 'Dr. Taylor' || p.doctor === 'Dr. Gersinho Lima')) ||
+      p.doctor.includes(activeDoctor.replace('Dr. ', ''))
+    )
+  );
 
   // Update Counters
   const countTodayEl = document.getElementById('stat-doc-today-count');
