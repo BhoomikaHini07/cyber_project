@@ -3,48 +3,67 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Oakridge Health Clinic – Patient Portal & Reception Desk</title>
+  <title>Clinic Guard – Healthcare Clinical Portal & Defense Center</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- CLINIC HEADER -->
+  <!-- ========================================================================
+       TOP GLOBAL HEADER (Brand, Live Security Indicator, Auth / Profile)
+       ======================================================================== -->
   <header>
-    <div class="clinic-brand">
+    <div class="clinic-brand" onclick="navigateToScreen('landing')" title="Clinic Guard Home">
       <span class="clinic-logo">🏥</span>
       <div class="clinic-title">
-        <h1>Oakridge Community Health Clinic</h1>
-        <p>Patient Care Portal &amp; Reception Desk · Protected by ClearShield</p>
+        <h1>Clinic Guard</h1>
+        <p>Intelligent Healthcare Portal &amp; Clinical Management · Protected by ClearShield</p>
       </div>
     </div>
 
     <div class="header-right">
-      <!-- Session Indicator -->
+      <!-- Session Status Indicator -->
       <div id="clinic-session-pill" class="session-indicator">
         <span class="dot"></span>
         <span id="clinic-session-text">Protected Session Active</span>
       </div>
 
-      <!-- Patient Auth Button -->
-      <div id="auth-actions">
-        <button class="btn btn-outline" id="btn-patient-login" onclick="openLoginModal()">
-          👤 Patient Login / Register
+      <!-- Auth Action Buttons (Landing Mode) -->
+      <div id="header-auth-buttons">
+        <button class="btn btn-outline" id="btn-demo-reception" onclick="quickLoginRole('reception')">
+          🛎️ Demo Reception
         </button>
-        <span id="logged-user-badge" style="display:none; font-size:12px; font-weight:700; color:#0f766e; background:#d1fae5; padding:6px 12px; border-radius:99px; border:1px solid #a7f3d0;">
-          <span id="logged-user-name">Arthur Pendelton</span>
-          <button style="all:unset; cursor:pointer; margin-left:8px; color:#991b1b; font-weight:700;" onclick="logoutPatient()">✕ Logout</button>
-        </span>
+        <button class="btn btn-outline" id="btn-demo-doctor" onclick="quickLoginRole('doctor')">
+          🩺 Demo Doctor
+        </button>
+        <button class="btn btn-outline" id="btn-patient-login" onclick="openLoginModal()">
+          👤 Sign In
+        </button>
+        <button class="btn btn-primary" id="btn-patient-register" onclick="openRegisterModal()">
+          ✍️ Sign Up
+        </button>
       </div>
 
-      <!-- Link to ClearShield -->
-      <a href="http://localhost:5000" target="_blank" class="link-security">
-        <span>🛡️ ClearShield Security Center</span>
+      <!-- Authenticated User Profile Badge (Dashboard Mode) -->
+      <div id="logged-user-badge" style="display:none; align-items:center; gap:8px;">
+        <span style="font-size:12px; font-weight:700; color:#0f766e; background:#d1fae5; padding:6px 14px; border-radius:99px; border:1px solid #a7f3d0; display:inline-flex; align-items:center; gap:6px;">
+          <span id="logged-user-name">Receptionist Jane</span>
+        </span>
+        <button class="btn btn-outline btn-sm" onclick="logoutClinicUser()" style="color:#991b1b; border-color:#fecdd3;">
+          ✕ Sign Out
+        </button>
+      </div>
+
+      <!-- Link to ClearShield Security Center -->
+      <a href="http://localhost:5000" target="_blank" class="link-security" title="Open ClearShield Security Console">
+        <span>🛡️ ClearShield Console</span>
         <span>↗</span>
       </a>
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
+  <!-- ========================================================================
+       MAIN APPLICATION CONTAINER
+       ======================================================================== -->
   <main>
 
     <!-- PHASE 6: REASSURING STANDBY BANNER (EMERGENCY CONTINUITY) -->
@@ -57,237 +76,731 @@
         <span class="badge badge-green">Care Continuity Enabled</span>
       </div>
       <div class="standby-body">
-        Suspicious activity was detected. Access to protected data has been temporarily restricted. Basic clinic operations can continue using the available offline procedures.
+        Suspicious activity was intercepted. Access to real database records has been safely air-gapped to protect patient privacy. Clinic operations continue without interruption via cached offline standby records.
       </div>
       <div class="standby-subtext">
-        <span>🔒 Zero Fear: Real records safe (0 patient records lost). Continue on predefined paper check-in forms below.</span>
+        <span>🔒 Zero Fear: 100% of patient records safe (0 records lost). Emergency appointment queues remain fully accessible.</span>
       </div>
     </div>
 
-    <!-- PRE-LOGIN THREAT PROBE DEMO BAR (PART 2 / SCENARIO 2) -->
-    <div class="card" style="padding: 14px 20px; background: #ffffff; border-left: 4px solid var(--pastel-sky-border);">
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 10px;">
-        <div>
-          <b style="font-size:13px; color:#0f172a;">Pre-Login Threat Probing Simulator:</b>
-          <span style="font-size:12px; color:var(--text-muted); margin-left:6px;">
-            Test unauthorized visitor attempts on restricted clinic routes.
-          </span>
-        </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="btn btn-outline" style="font-size:11px;" onclick="probeRestrictedPath('/admin')">Probe /admin</button>
-          <button class="btn btn-outline" style="font-size:11px;" onclick="probeRestrictedPath('/backup')">Probe /backup</button>
-          <button class="btn btn-outline" style="font-size:11px;" onclick="probeRestrictedPath('/database')">Probe /database</button>
-          <button class="btn btn-outline" style="font-size:11px;" onclick="probeRestrictedPath('/staff')">Probe /staff</button>
-        </div>
-      </div>
-    </div>
+    <!-- ======================================================================
+         SCREEN 1 — WELCOME / LANDING PAGE
+         ====================================================================== -->
+    <div id="screen-landing" class="screen active">
+      
+      <!-- HERO SECTION -->
+      <div class="landing-hero">
+        <div class="landing-hero-content">
+          <div class="landing-badge">
+            <span>🛡️</span>
+            <span>Next-Generation Healthcare Management &amp; Zero-Trust Defense</span>
+          </div>
 
-    <!-- AUTHENTICATED PATIENT HEALTH PORTAL (PART 1 / SCENARIO 1 & 3) -->
-    <div class="card" id="patient-portal-card" style="display:none; border: 2px solid #a7f3d0; background: #ffffff;">
-      <div class="table-header">
-        <div>
-          <h3 style="color:#0f766e;">My Personal Health Portal – <span id="portal-patient-name">Arthur Pendelton</span></h3>
-          <p style="font-size:12px; color:var(--text-muted);">
-            Identity verified via Passkey / Authenticated Session. Authorized for personal health records only.
+          <h1 class="landing-title">
+            Intelligent Clinic Care. <span>Uncompromising Security.</span>
+          </h1>
+
+          <p class="landing-desc">
+            Clinic Guard combines a rapid-response reception desk, a high-fidelity doctor clinical workspace with 7-day patient history, and integrated ClearShield honeypot protection to safeguard patient records at all times.
           </p>
+
+          <div class="landing-cta-group">
+            <button class="btn btn-primary" style="padding:12px 22px; font-size:14px;" onclick="quickLoginRole('reception')">
+              🛎️ Enter Reception Desk
+            </button>
+            <button class="btn btn-purple" style="padding:12px 22px; font-size:14px;" onclick="quickLoginRole('doctor')">
+              🩺 Enter Doctor Workspace
+            </button>
+            <button class="btn btn-outline" style="padding:12px 22px; font-size:14px;" onclick="openLoginModal()">
+              👤 Patient Portal &amp; Passkeys
+            </button>
+          </div>
+
+          <!-- Trust & Status Metrics -->
+          <div class="landing-metrics">
+            <div class="metric-item">
+              <b id="metric-patients-count">8</b>
+              <span>Active Patients</span>
+            </div>
+            <div class="metric-item">
+              <b>3</b>
+              <span>On-Duty Specialists</span>
+            </div>
+            <div class="metric-item">
+              <b style="color:#10b981;">0 Breaches</b>
+              <span>Canary Air-Gap Active</span>
+            </div>
+          </div>
         </div>
-        <div style="display:flex; gap: 10px;">
-          <button class="btn btn-danger" onclick="attemptCrossPatientIDOR()">
-            ⚡ Attempt Cross-Patient IDOR Query (Scenario 3)
+
+        <!-- Large Main Clinic Visual / Illustration Area -->
+        <div class="landing-visual-wrap">
+          <img src="assets/clinic_guard_hero.jpg" alt="Clinic Guard Modern Healthcare Facility" class="landing-illustration">
+          <div class="visual-floating-badge">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:22px;">🏥</span>
+              <div>
+                <b style="font-size:13px; color:#0f172a; display:block;">Oakridge Health Community Center</b>
+                <span style="font-size:11px; color:#64748b;">Walk-In Triage · Specialized Care · 24/7 Monitored</span>
+              </div>
+            </div>
+            <span class="badge badge-green">Operational</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROLE WORKSPACES SHOWCASE -->
+      <div class="landing-roles-section">
+        <div class="section-header">
+          <h2>Select a Dedicated Workspace</h2>
+          <p>Access the role-tailored dashboard designed for clinical staff and patients</p>
+        </div>
+
+        <div class="role-cards-grid">
+          <!-- Card 1: Reception Desk -->
+          <div class="role-card reception-card" onclick="quickLoginRole('reception')">
+            <div>
+              <div class="role-icon-box">🛎️</div>
+              <h3>Reception &amp; Triage Desk</h3>
+              <p>
+                Patient lookup, real-time admission registry, appointment scheduling, and offline intake slip spooling with Row 0 canary tripwire security.
+              </p>
+            </div>
+            <button class="btn btn-teal" style="width:100%; justify-content:center;">
+              Launch Reception Desk ➔
+            </button>
+          </div>
+
+          <!-- Card 2: Doctor View -->
+          <div class="role-card doctor-card" onclick="quickLoginRole('doctor')">
+            <div>
+              <div class="role-icon-box">🩺</div>
+              <h3>Doctor Clinical Workspace</h3>
+              <p>
+                Comprehensive physician portal with assigned patient queues, upcoming appointment schedules, prior diagnoses, and 7-day clinical history timeline.
+              </p>
+            </div>
+            <button class="btn btn-purple" style="width:100%; justify-content:center;">
+              Launch Doctor View ➔
+            </button>
+          </div>
+
+          <!-- Card 3: Patient Portal -->
+          <div class="role-card patient-card" onclick="openLoginModal()">
+            <div>
+              <div class="role-icon-box">👤</div>
+              <h3>Patient Health Portal</h3>
+              <p>
+                One-click biometric passkey authentication, personal recovery code verification, authorized prescription history, and upcoming consultation view.
+              </p>
+            </div>
+            <button class="btn btn-outline" style="width:100%; justify-content:center;">
+              Patient Sign In ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRE-LOGIN THREAT PROBE DEMO BAR (PART 2 / SCENARIO 2) -->
+      <div class="card" style="padding: 14px 20px; background: #ffffff; border-left: 4px solid var(--pastel-sky-border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 10px;">
+          <div>
+            <b style="font-size:13px; color:#0f172a;">Pre-Login Threat Probing Simulator (Teammate Feature):</b>
+            <span style="font-size:12px; color:var(--text-muted); margin-left:6px;">
+              Simulate unauthorized reconnaissance probes against restricted clinic paths without logging in.
+            </span>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/admin')">Probe /admin</button>
+            <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/backup')">Probe /backup</button>
+            <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/database')">Probe /database</button>
+            <button class="btn btn-outline btn-sm" onclick="probeRestrictedPath('/staff')">Probe /staff</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ======================================================================
+         SCREEN 2 — AFTER LOGIN / MAIN CLINIC DASHBOARD
+         ====================================================================== -->
+    <div id="screen-dashboard" class="screen">
+      
+      <!-- DASHBOARD TOPBAR (User Profile Area & Role Navigation) -->
+      <div class="dashboard-topbar">
+        <!-- User Profile Area -->
+        <div class="user-profile-widget">
+          <div class="user-avatar" id="dash-user-avatar">J</div>
+          <div class="user-meta">
+            <h3 id="dash-user-name">
+              <span>Receptionist Jane</span>
+              <span class="badge badge-green" id="dash-role-badge">Reception</span>
+            </h3>
+            <p id="dash-user-sub">Oakridge Health Clinic · Front Desk Terminal #1</p>
+          </div>
+        </div>
+
+        <!-- Two Clear Roles / Areas Navigation -->
+        <div class="role-nav-bar">
+          <button class="role-nav-btn active" id="nav-btn-reception" onclick="switchClinicRole('reception')">
+            🛎️ Reception
+          </button>
+          <button class="role-nav-btn" id="nav-btn-doctor" onclick="switchClinicRole('doctor')">
+            🩺 Doctor
+          </button>
+          <button class="role-nav-btn" id="nav-btn-patient" onclick="switchClinicRole('patient')">
+            👤 Patient Portal
+          </button>
+          <button class="role-nav-btn" id="nav-btn-security" onclick="switchClinicRole('security')">
+            🛡️ Security Tools
+          </button>
+        </div>
+
+        <!-- Quick Switch or Return to Landing -->
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-outline btn-sm" onclick="navigateToScreen('landing')" title="Back to Welcome Landing">
+            🏠 Home
           </button>
         </div>
       </div>
 
-      <!-- Prescriptions Section -->
-      <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Previously Prescribed Medicines</h4>
-      <div style="overflow-x: auto; margin-bottom: 16px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Medication</th>
-              <th>Dosage &amp; Frequency</th>
-              <th>Prescribed Date</th>
-              <th>Attending Doctor</th>
-              <th>Refills Remaining</th>
-              <th>Instructions</th>
-            </tr>
-          </thead>
-          <tbody id="patient-prescriptions-body">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
+      <!-- ====================================================================
+           SCREEN 3 — RECEPTION VIEW
+           ==================================================================== -->
+      <div id="view-reception" class="role-view active">
 
-      <!-- Upcoming Appointments -->
-      <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Scheduled Appointments</h4>
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Physician</th>
-              <th>Service</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="patient-appointments-body">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- DOCUMENT REPOSITORY & HONEYPOT DECOY FILES (PART 3 / SCENARIO 4) -->
-    <div class="card">
-      <div class="table-header">
-        <h3>📁 Clinic Document Repository &amp; Decoy Canary Files</h3>
-        <span class="tag tag-yellow">Honeypot Decoy Monitored</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom: 14px;">
-        Normal public clinic documents can be downloaded safely. Confidential decoy files contain honeypot tripwires that arrest automated downloads before delivery.
-      </p>
-
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Document Name</th>
-              <th>Category</th>
-              <th>Size</th>
-              <th>Description</th>
-              <th>Download Action</th>
-            </tr>
-          </thead>
-          <tbody id="clinic-files-body">
-            <!-- Dynamic files populated via clinic.js -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- CLINIC RECEPTION REGISTRY (PHASE 1 & 2 / SCENARIO A, B, C, D) -->
-    <div class="card" id="records-card">
-      <div class="table-header">
-        <div>
-          <h3>Reception Patient Admission Registry</h3>
-          <p style="font-size:12px; color:var(--text-muted);">Demonstration patient dataset containing Row 0 Canary Decoy Record.</p>
-        </div>
-        <div style="display:flex; gap: 8px;">
-          <button class="btn btn-outline" onclick="openPinModal()">🔑 Supervisor PIN (Scenario B)</button>
-          <button class="btn btn-outline" onclick="triggerScraperCrawl()">🤖 Automated Scraper (Scenario C)</button>
-          <button class="btn btn-outline" onclick="triggerBulkExport()">📦 Bulk Export (Scenario 5)</button>
-        </div>
-      </div>
-
-      <div style="overflow-x: auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Record #</th>
-              <th>Full Name</th>
-              <th>DOB</th>
-              <th>Condition / Reason</th>
-              <th>Assigned Room</th>
-              <th>Attending Physician</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="patient-table-body">
-            <!-- Populated dynamically via clinic.js -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- CARE CONTINUITY QUEUE & PRINTABLE SLIPS (PART 4 / SCENARIO 6) -->
-    <div class="card" id="care-continuity-card">
-      <div class="table-header">
-        <h3>📋 Care Continuity – Emergency Appointment Queue</h3>
-        <div style="display:flex; gap: 8px;">
-          <button class="btn btn-primary" onclick="printCheckInSlip()">
-            🖨️ Print Predefined Emergency Appointment Queue
-          </button>
-        </div>
-      </div>
-
-      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-        Demonstrates healthcare continuity: during security incidents, pre-cached appointment schedules and paper check-in forms enable uninterrupted patient care.
-      </p>
-
-      <div style="overflow-x: auto; margin-bottom: 20px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Scheduled Time</th>
-              <th>Patient Name</th>
-              <th>DOB</th>
-              <th>Attending Doctor</th>
-              <th>Service</th>
-              <th>Status</th>
-              <th>Intake Slip</th>
-            </tr>
-          </thead>
-          <tbody id="standby-queue-body">
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- PRINTABLE PAPER CHECK-IN FORM -->
-      <div id="printable-checkin-area">
-        <div class="paper-form">
-          <div class="paper-form-header">
-            <h2 style="font-size: 16px; margin-bottom: 4px;">OAKRIDGE COMMUNITY HEALTH CLINIC</h2>
-            <p style="font-size: 11px; text-transform: uppercase; color: #475569;">
-              Continuity of Care · Patient Paper Check-in Slip · HIPAA Safe Offline Intake
-            </p>
+        <!-- Search Bar & Filter Chips -->
+        <div class="reception-search-card">
+          <div class="reception-search-wrap">
+            <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="reception-patient-search" class="reception-search-input" 
+              placeholder="Search patients by name, Record ID (MED-10492), condition, doctor, or room..."
+              oninput="filterReceptionPatients()">
           </div>
 
-          <div class="paper-grid">
-            <div class="paper-field">
-              <label>Patient Full Name</label>
-              <span id="print-patient-name">Arthur Pendelton</span>
-            </div>
-            <div class="paper-field">
-              <label>Date of Birth</label>
-              <span id="print-patient-dob">1974-05-12</span>
-            </div>
-            <div class="paper-field">
-              <label>Arrival Timestamp</label>
-              <span id="print-arrival-time">Today, 09:30 AM</span>
-            </div>
-            <div class="paper-field">
-              <label>Attending Physician</label>
-              <span id="print-doctor">Dr. Taylor (Room 1)</span>
-            </div>
+          <div class="filter-chips">
+            <button class="filter-chip active" onclick="setReceptionFilter('all', this)">All Patients (<span id="count-all">8</span>)</button>
+            <button class="filter-chip" onclick="setReceptionFilter('Checked In', this)">Checked In</button>
+            <button class="filter-chip" onclick="setReceptionFilter('Waiting Room', this)">Waiting Room</button>
+            <button class="filter-chip" onclick="setReceptionFilter('Scheduled', this)">Scheduled</button>
           </div>
 
-          <div class="paper-field" style="margin-bottom: 14px;">
-            <label>Chief Complaint / Reason for Visit</label>
-            <span id="print-reason">Hypertension Routine Follow-up</span>
-          </div>
-
-          <div class="paper-grid" style="margin-top: 18px;">
-            <div class="paper-field">
-              <label>Triage Nurse Initials</label>
-              <span>RN-42</span>
-            </div>
-            <div class="paper-field">
-              <label>Patient Signature on Paper</label>
-              <span style="font-family: cursive; font-size: 16px;">A. Pendelton</span>
-            </div>
-          </div>
-
-          <div style="margin-top: 14px; font-size: 10px; color: #64748b; text-align: center;">
-            * Offline Continuity Form generated in accordance with ClearShield Standby Care Protocol.
+          <!-- Reception Quick Actions -->
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="openPinModal()">🔑 Supervisor PIN</button>
+            <button class="btn btn-outline btn-sm" onclick="triggerBulkExport()">📦 Bulk Export</button>
           </div>
         </div>
+
+        <!-- RECEPTION SPLIT GRID: PATIENT LIST + DETAIL CARD -->
+        <div class="reception-split-grid">
+          
+          <!-- Left Column: Clickable Patient Card Area -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <b style="font-size:13px; color:#0f172a;">Patient Admission Roster</b>
+              <span style="font-size:11px; color:#64748b;" id="reception-showing-count">Showing 8 patients</span>
+            </div>
+
+            <div class="reception-list-panel" id="reception-patient-cards">
+              <!-- Dynamically populated clickable patient items -->
+            </div>
+          </div>
+
+          <!-- Right Column: Patient Detail View Card -->
+          <div>
+            <div class="patient-detail-card" id="patient-detail-panel">
+              <div class="detail-header">
+                <div class="detail-avatar" id="detail-patient-avatar">AP</div>
+                <div class="detail-header-info">
+                  <h2 id="detail-patient-name">Arthur Pendelton</h2>
+                  <p>
+                    <span id="detail-record-number" class="code-cell" style="font-size:13px;">MED-10492</span> · 
+                    <span id="detail-patient-id">pat-1</span> · 
+                    <span id="detail-patient-status" class="badge badge-green">Checked In</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Key Appointment & Demographic Details -->
+              <div class="detail-grid-2col">
+                <div class="detail-info-block">
+                  <label>Next Appointment Time</label>
+                  <b id="detail-appointment-time">09:30 AM (Today)</b>
+                </div>
+                <div class="detail-info-block">
+                  <label>Attending Physician</label>
+                  <b id="detail-doctor">Dr. Taylor (Room 1)</b>
+                </div>
+                <div class="detail-info-block">
+                  <label>Date of Birth &amp; Age</label>
+                  <b id="detail-dob">1974-05-12 (52 yrs)</b>
+                </div>
+                <div class="detail-info-block">
+                  <label>Phone Contact</label>
+                  <b id="detail-phone">555-0142</b>
+                </div>
+              </div>
+
+              <!-- Disease / Medical Information -->
+              <div class="detail-section-title">
+                <span>🩺</span>
+                <span>Diagnosis &amp; Medical Reason for Visit</span>
+              </div>
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:18px;">
+                <b id="detail-condition" style="color:#0f766e; font-size:14px; display:block; margin-bottom:4px;">
+                  Hypertension Routine Follow-up
+                </b>
+                <p id="detail-condition-notes" style="font-size:12px; color:var(--text-muted); line-height:1.5;">
+                  Patient presenting for quarterly blood pressure monitoring and medication reconciliation. No reported acute symptoms.
+                </p>
+              </div>
+
+              <!-- Prescribed Medicines for this Patient -->
+              <div class="detail-section-title">
+                <span>💊</span>
+                <span>Active Prescriptions &amp; Dosages</span>
+              </div>
+              <div style="overflow-x:auto; margin-bottom:20px;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Medication</th>
+                      <th>Dosage</th>
+                      <th>Refills</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detail-prescriptions-body">
+                    <!-- Populated dynamically based on selected patient -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Action Buttons -->
+              <div style="display:flex; gap:10px; flex-wrap:wrap; border-top:1px solid #f1f5f9; padding-top:16px;">
+                <button class="btn btn-primary" onclick="markPatientCheckedIn()">
+                  ✅ Mark Patient Checked In
+                </button>
+                <button class="btn btn-outline" onclick="spoolSlipForSelectedPatient()">
+                  🖨️ Spool Paper Intake Slip
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RECEPTION PATIENT ADMISSION REGISTRY TABLE (Full Table View) -->
+        <div class="card" id="records-card">
+          <div class="table-header">
+            <div>
+              <h3>Reception Patient Admission Registry</h3>
+              <p style="font-size:12px; color:var(--text-muted);">Demonstration patient dataset containing Row 0 Canary Decoy Record.</p>
+            </div>
+            <div style="display:flex; gap: 8px;">
+              <button class="btn btn-outline btn-sm" onclick="triggerScraperCrawl()">🤖 Automated Scraper (Scenario C)</button>
+              <button class="btn btn-outline btn-sm" onclick="triggerBulkExport()">📦 Bulk Export (Scenario 5)</button>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Record #</th>
+                  <th>Full Name</th>
+                  <th>DOB</th>
+                  <th>Condition / Reason</th>
+                  <th>Assigned Room</th>
+                  <th>Attending Physician</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="patient-table-body">
+                <!-- Populated dynamically via clinic.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CARE CONTINUITY QUEUE & PRINTABLE SLIPS (PART 4 / SCENARIO 6) -->
+        <div class="card" id="care-continuity-card">
+          <div class="table-header">
+            <h3>📋 Care Continuity – Emergency Appointment Queue</h3>
+            <div style="display:flex; gap: 8px;">
+              <button class="btn btn-primary" onclick="printCheckInSlip()">
+                🖨️ Print Predefined Emergency Appointment Queue
+              </button>
+            </div>
+          </div>
+
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+            Demonstrates healthcare continuity: during security incidents, pre-cached appointment schedules and paper check-in forms enable uninterrupted patient care.
+          </p>
+
+          <div style="overflow-x: auto; margin-bottom: 20px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Scheduled Time</th>
+                  <th>Patient Name</th>
+                  <th>DOB</th>
+                  <th>Attending Doctor</th>
+                  <th>Service</th>
+                  <th>Status</th>
+                  <th>Intake Slip</th>
+                </tr>
+              </thead>
+              <tbody id="standby-queue-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PRINTABLE PAPER CHECK-IN FORM -->
+          <div id="printable-checkin-area">
+            <div class="paper-form">
+              <div class="paper-form-header">
+                <h2 style="font-size: 16px; margin-bottom: 4px;">OAKRIDGE COMMUNITY HEALTH CLINIC</h2>
+                <p style="font-size: 11px; text-transform: uppercase; color: #475569;">
+                  Continuity of Care · Patient Paper Check-in Slip · HIPAA Safe Offline Intake
+                </p>
+              </div>
+
+              <div class="paper-grid">
+                <div class="paper-field">
+                  <label>Patient Full Name</label>
+                  <span id="print-patient-name">Arthur Pendelton</span>
+                </div>
+                <div class="paper-field">
+                  <label>Date of Birth</label>
+                  <span id="print-patient-dob">1974-05-12</span>
+                </div>
+                <div class="paper-field">
+                  <label>Arrival Timestamp</label>
+                  <span id="print-arrival-time">Today, 09:30 AM</span>
+                </div>
+                <div class="paper-field">
+                  <label>Attending Physician</label>
+                  <span id="print-doctor">Dr. Taylor (Room 1)</span>
+                </div>
+              </div>
+
+              <div class="paper-field" style="margin-bottom: 14px;">
+                <label>Chief Complaint / Reason for Visit</label>
+                <span id="print-reason">Hypertension Routine Follow-up</span>
+              </div>
+
+              <div class="paper-grid" style="margin-top: 18px;">
+                <div class="paper-field">
+                  <label>Triage Nurse Initials</label>
+                  <span>RN-42</span>
+                </div>
+                <div class="paper-field">
+                  <label>Patient Signature on Paper</label>
+                  <span style="font-family: cursive; font-size: 16px;">A. Pendelton</span>
+                </div>
+              </div>
+
+              <div style="margin-top: 14px; font-size: 10px; color: #64748b; text-align: center;">
+                * Offline Continuity Form generated in accordance with ClearShield Standby Care Protocol.
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- ====================================================================
+           SCREEN 4 — DOCTOR VIEW
+           ==================================================================== -->
+      <div id="view-doctor" class="role-view">
+        
+        <!-- Doctor Profile & Speciality Banner -->
+        <div class="doctor-header-card">
+          <div class="doctor-identity">
+            <div class="doctor-avatar-badge" id="doc-avatar-badge">👨‍⚕️</div>
+            <div class="doctor-name-box">
+              <h2 id="doc-profile-name">Dr. Taylor, MD</h2>
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span class="doctor-speciality-pill" id="doc-profile-speciality">
+                  🩺 Internal Medicine &amp; Primary Care
+                </span>
+                <span style="font-size:11px; color:#cbd5e1;">License: #MD-883921-CA</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doctor Selector & Live Appointment Time -->
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <div>
+              <label style="display:block; font-size:10px; text-transform:uppercase; color:#94a3b8; font-weight:700; margin-bottom:4px;">
+                Switch Attending Doctor:
+              </label>
+              <select id="doc-selector" onchange="changeDoctor(this.value)" 
+                style="padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#ffffff; font-family:inherit; font-weight:700; font-size:12px; outline:none; cursor:pointer;">
+                <option value="Dr. Taylor" selected style="color:#0f172a;">Dr. Taylor — Internal Medicine</option>
+                <option value="Dr. Vance" style="color:#0f172a;">Dr. Vance — Allergy &amp; Immunology</option>
+                <option value="Dr. Evans" style="color:#0f172a;">Dr. Evans — Orthopedics &amp; Sports</option>
+              </select>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); padding:8px 16px; border-radius:10px; text-align:right;">
+              <span style="font-size:10px; text-transform:uppercase; color:#94a3b8; display:block; font-weight:700;">Current Clinic Time</span>
+              <b style="font-size:15px; font-family:var(--font-mono); color:#38bdf8;" id="doc-live-clock">09:30 AM</b>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctor KPI Stats Row -->
+        <div class="doctor-stats-row">
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon">📅</div>
+            <div class="doc-stat-info">
+              <b id="stat-doc-today-count">4</b>
+              <span>Today's Appointments</span>
+            </div>
+          </div>
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon">⏳</div>
+            <div class="doc-stat-info">
+              <b id="stat-doc-waiting-count">1</b>
+              <span>Waiting in Lobby</span>
+            </div>
+          </div>
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon">✅</div>
+            <div class="doc-stat-info">
+              <b>1</b>
+              <span>Checked In &amp; Ready</span>
+            </div>
+          </div>
+          <div class="doc-stat-card">
+            <div class="doc-stat-icon">🛡️</div>
+            <div class="doc-stat-info">
+              <b style="color:#10b981;">Active</b>
+              <span>Zero-Trust Standby Guard</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCTOR MAIN GRID: LEFT QUEUE + RIGHT CLINICAL CHART & 7-DAY HISTORY -->
+        <div class="doctor-main-grid">
+
+          <!-- Left Column: Upcoming Appointments & Doctor's Patient List -->
+          <div>
+            <!-- Upcoming Appointments Card -->
+            <div class="card" style="margin-bottom:20px;">
+              <div class="table-header">
+                <h3>📅 Today's Upcoming Appointments</h3>
+                <span class="badge badge-blue" id="doc-apt-badge">4 Scheduled</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Patient</th>
+                      <th>Service / Reason</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="doc-upcoming-appointments-body">
+                    <!-- Populated dynamically based on doctor -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Doctor's Assigned Patients List -->
+            <div class="card">
+              <div class="table-header">
+                <h3>👥 Assigned Patients</h3>
+                <span style="font-size:11px; color:var(--text-muted);">Click patient to view chart</span>
+              </div>
+              <div id="doc-assigned-patients-list" style="display:flex; flex-direction:column; gap:10px;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Patient Detail Chart, Previous Records & 7-Day History -->
+          <div>
+            <div class="card" id="doc-patient-chart-card">
+              <div class="detail-header" style="margin-bottom:14px; padding-bottom:14px;">
+                <div class="detail-avatar" id="doc-chart-avatar" style="background:linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);">AP</div>
+                <div class="detail-header-info">
+                  <h2 id="doc-chart-name">Arthur Pendelton</h2>
+                  <p>
+                    <span id="doc-chart-record" class="code-cell">MED-10492</span> · 
+                    <span id="doc-chart-room">Exam Room 1</span> · 
+                    <span id="doc-chart-condition" class="badge badge-green">Hypertension</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- PREVIOUS RECORDS SECTION -->
+              <div class="detail-section-title">
+                <span>📋</span>
+                <span>Previous Clinical Records &amp; Medications</span>
+              </div>
+              <div style="overflow-x:auto; margin-bottom:20px;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Medication</th>
+                      <th>Dosage</th>
+                      <th>Prescribed Date</th>
+                      <th>Refills</th>
+                      <th>Instructions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="doc-chart-prescriptions-body">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- PATIENT HISTORY / APPROXIMATELY 7-DAY HISTORY SECTION -->
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <div class="detail-section-title" style="margin:0;">
+                  <span>📈</span>
+                  <span>Patient 7-Day Clinical History Timeline</span>
+                </div>
+                <span class="badge badge-purple">7-Day Continuity Log</span>
+              </div>
+              <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                Consecutive 7-day chronological milestones tracking vitals, laboratory tests, consultations, and prescription adherence.
+              </p>
+
+              <div class="timeline-container" id="patient-7day-timeline">
+                <!-- Populated dynamically -->
+              </div>
+
+              <!-- Quick Doctor Clinical Note Entry -->
+              <div style="margin-top:20px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px;">
+                <b style="font-size:13px; color:#0f172a; display:block; margin-bottom:8px;">Add Clinical Progress Note</b>
+                <textarea id="doc-note-input" rows="2" placeholder="Record diagnosis remarks, dosage adjustments, or follow-up instructions..." 
+                  style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit; font-size:12px; resize:vertical; outline:none;"></textarea>
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+                  <button class="btn btn-purple btn-sm" onclick="saveDoctorClinicalNote()">
+                    💾 Append to Patient Chart
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ====================================================================
+           SCREEN 5 — PATIENT PORTAL VIEW (Preserved from Phase 1)
+           ==================================================================== -->
+      <div id="view-patient" class="role-view">
+        <div class="card" id="patient-portal-card" style="border: 2px solid #a7f3d0; background: #ffffff;">
+          <div class="table-header">
+            <div>
+              <h3 style="color:#0f766e;">My Personal Health Portal – <span id="portal-patient-name">Arthur Pendelton</span></h3>
+              <p style="font-size:12px; color:var(--text-muted);">
+                Identity verified via Passkey / Authenticated Session. Authorized for personal health records only.
+              </p>
+            </div>
+            <div style="display:flex; gap: 10px;">
+              <button class="btn btn-danger" onclick="attemptCrossPatientIDOR()">
+                ⚡ Attempt Cross-Patient IDOR Query (Scenario 3)
+              </button>
+            </div>
+          </div>
+
+          <!-- Prescriptions Section -->
+          <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Previously Prescribed Medicines</h4>
+          <div style="overflow-x: auto; margin-bottom: 16px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Medication</th>
+                  <th>Dosage &amp; Frequency</th>
+                  <th>Prescribed Date</th>
+                  <th>Attending Doctor</th>
+                  <th>Refills Remaining</th>
+                  <th>Instructions</th>
+                </tr>
+              </thead>
+              <tbody id="patient-prescriptions-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Upcoming Appointments -->
+          <h4 style="font-size: 14px; margin-bottom: 8px; color:#0f172a;">My Scheduled Appointments</h4>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Physician</th>
+                  <th>Service</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="patient-appointments-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================================
+           SCREEN 6 — SECURITY TOOLS & HONEYPOT DECOYS (Teammate Features)
+           ==================================================================== -->
+      <div id="view-security" class="role-view">
+        <!-- DOCUMENT REPOSITORY & HONEYPOT DECOY FILES (PART 3 / SCENARIO 4) -->
+        <div class="card">
+          <div class="table-header">
+            <h3>📁 Clinic Document Repository &amp; Decoy Canary Files</h3>
+            <span class="tag tag-yellow">Honeypot Decoy Monitored</span>
+          </div>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom: 14px;">
+            Normal public clinic documents can be downloaded safely. Confidential decoy files contain honeypot tripwires that arrest automated downloads before delivery.
+          </p>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Document Name</th>
+                  <th>Category</th>
+                  <th>Size</th>
+                  <th>Description</th>
+                  <th>Download Action</th>
+                </tr>
+              </thead>
+              <tbody id="clinic-files-body">
+                <!-- Dynamic files populated via clinic.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </main>
 
-  <!-- MODAL: PATIENT LOGIN & REGISTRATION (PASSKEY & RECOVERY CODE) -->
+  <!-- ========================================================================
+       MODALS (Patient Auth, Canary Safe Cancel, Supervisor PIN)
+       ======================================================================== -->
+
+  <!-- MODAL: PATIENT LOGIN & REGISTRATION -->
   <div class="modal-overlay" id="login-modal">
     <div class="modal-box" style="max-width: 520px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
@@ -297,7 +810,7 @@
 
       <!-- Tab Buttons: Login vs Register -->
       <div style="display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid var(--card-border); padding-bottom:8px;">
-        <button class="btn btn-outline" id="tab-login-btn" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="btn btn-primary" id="tab-login-btn" onclick="switchAuthTab('login')">Sign In</button>
         <button class="btn btn-outline" id="tab-register-btn" onclick="switchAuthTab('register')">New Patient Registration</button>
       </div>
 
