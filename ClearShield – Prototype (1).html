@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ClearShield – Prototype</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#14213d;--mu:#5b6478;--bd:#e1e5ee;--ac:#2563eb;--lo:#16a34a;--me:#d97706;--hi:#dc2626;--sb:#0f1b3d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1120;--card:#141c2f;--tx:#e8ecf6;--mu:#97a1b8;--bd:#25304a;--ac:#60a5fa;--lo:#4ade80;--me:#fbbf24;--hi:#f87171;--sb:#070c18;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1120;--card:#141c2f;--tx:#e8ecf6;--mu:#97a1b8;--bd:#25304a;--ac:#60a5fa;--lo:#4ade80;--me:#fbbf24;--hi:#f87171;--sb:#070c18;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:flex}
+nav{width:210px;background:var(--sb);color:#fff;padding:18px 12px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+nav h1{font-size:19px;margin:0 8px 14px;display:flex;gap:8px;align-items:center}
+nav button{all:unset;cursor:pointer;padding:9px 12px;border-radius:8px;color:#c7d0e8;font-size:14px}
+nav button:hover{background:#ffffff14}nav button.on{background:var(--ac);color:#fff}
+nav small{margin-top:auto;color:#8f9bb8;padding:8px}
+main{flex:1;overflow:auto;padding:22px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+h2{margin:0;font-size:22px}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+.btn.g{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.badge{font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--bd);color:var(--mu)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:14px}
+.grid .card{margin:0}.num{font-size:30px;font-weight:700}.mu{color:var(--mu);font-size:13px}
+.row{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.bars{display:flex;align-items:flex-end;gap:10px;height:140px;padding-top:8px}
+.bars div{flex:1;text-align:center;font-size:12px;color:var(--mu)}.bars i{display:block;background:var(--ac);border-radius:5px 5px 0 0;margin-bottom:4px}
+.hb{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:13px}.hb b{width:60px}.hb span{height:14px;border-radius:7px}
+.pill{font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px;color:#fff}
+.LOW{background:var(--lo)}.MEDIUM{background:var(--me)}.HIGH{background:var(--hi)}
+.alert{border-left:5px solid var(--bd)}.alert.LOW{border-color:var(--lo);background:var(--card)}.alert.MEDIUM{border-color:var(--me);background:var(--card)}.alert.HIGH{border-color:var(--hi);background:var(--card)}
+.ah{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.six{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:10px 0}
+.six div{border:1px solid var(--bd);border-radius:10px;padding:10px}.six h4{margin:0 0 4px;font-size:13px;color:var(--ac)}
+.do{border-color:var(--lo)!important}.av{border-color:var(--hi)!important}
+details{margin-top:6px}summary{cursor:pointer;color:var(--ac);font-size:13px}
+.ev{font:12px ui-monospace,Menlo,monospace;color:var(--mu);max-height:160px;overflow:auto;margin-top:6px}
+label{display:block;margin:10px 0 4px}input{padding:7px;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);width:120px}
+.empty{text-align:center;color:var(--mu);padding:40px 10px}
+@media(max-width:640px){body{flex-direction:column}nav{width:100%;flex-direction:row;overflow-x:auto;padding:8px}nav h1,nav small{display:none}nav button{white-space:nowrap}main{padding:14px}}
+</style></head><body>
+<nav id="nav"></nav><main id="main"></main>
+<script>
+/* ---------- 1. CONFIG (editable thresholds) ---------- */
+let T={fails:5,failMin:10,files:100,fileMin:2};
+try{const s=localStorage.getItem('cs_T');if(s)T=JSON.parse(s)}catch(e){}
+
+/* ---------- 2. SIMULATED DATA ---------- */
+const hm=s=>String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0');
+const at=(h,m)=>h*3600+m*60;
+function demoEvents(){
+  const ev=[];
+  ev.push({t:at(9,40),type:'LOGIN_OK',device:'NURSE-LAPTOP'});
+  for(let i=0;i<20;i++)ev.push({t:at(10,2)+i*15,type:'AUTH_FAIL',device:'FRONT-DESK-PC'});
+  ev.push({t:at(10,9),type:'FILE_CHANGE',device:'FRONT-DESK-PC',files:340,secs:90});
+  ev.push({t:at(10,20),type:'EMAIL_LINK',device:'ADMIN-PC',note:'Link claiming to be from the exam board'});
+  return ev.map((e,i)=>({id:i+1,...e}));
+}
+
+/* ---------- 3. ENGINE: group -> rules -> score -> explain ---------- */
+const GAP=600; // events on same device+type within 10 min are grouped
+function group(events){
+  const by={};[...events].sort((a,b)=>a.t-b.t).forEach(e=>{(by[e.device+'|'+e.type]??=[]).push(e)});
+  const groups=[];
+  Object.values(by).forEach(list=>{let cur=[list[0]];
+    for(let i=1;i<list.length;i++){if(list[i].t-list[i-1].t<=GAP)cur.push(list[i]);else{groups.push(cur);cur=[list[i]]}}
+    groups.push(cur)});
+  return groups.map(evs=>({device:evs[0].device,type:evs[0].type,evs,start:evs[0].t,end:evs.at(-1).t}));
+}
+function applyRules(g){ // returns flag A/B/C/D/U
+  if(g.type==='AUTH_FAIL')return g.evs.length>=T.fails&&g.end-g.start<=T.failMin*60?'A':'D';
+  if(g.type==='FILE_CHANGE'){const f=g.evs.reduce((s,e)=>s+e.files,0),sec=Math.max(...g.evs.map(e=>e.secs));return f>=T.files&&sec<=T.fileMin*60?'B':'D'}
+  if(g.type==='EMAIL_LINK')return 'C';
+  if(g.type==='LOGIN_OK')return 'D';
+  return 'U'; // unknown -> insufficient evidence
+}
+const TEXT={
+ A:{t:'Repeated failed logins',what:n=>`${n} login attempts failed in a short time on this device.`,why:'Someone may be guessing a password.',know:n=>`${n} failed logins, grouped because they share a device and are close in time.`,unc:'We cannot tell whether it is a typo, a forgotten password or an attacker.',do:'Do not keep retrying. Tell your administrator and change the password from a different device.',avoid:'Do not ignore it or share the password to “fix” it.'},
+ B:{t:'Unusual file activity',what:n=>`${n} files changed very quickly on this device.`,why:'Fast bulk changes can mean ransomware, but also backups or updates.',know:n=>`${n} files changed within the demo threshold window.`,unc:'We cannot confirm what program changed the files.',do:'Disconnect the device from the network and tell your administrator.',avoid:'Do not delete files, reinstall, or pay anyone before getting help.'},
+ AB:{t:'Failed logins, then files changed',what:n=>`Many failed logins were followed by a burst of file changes on the same device.`,why:'This combination is concerning and may be unauthorized access. It needs prompt attention.',know:n=>`Both the failed-login rule and the file-activity rule fired on one device, close in time.`,unc:'Suspicious does not mean confirmed. We cannot prove an attack happened.',do:'Disconnect the PC from the network. Tell your administrator.',avoid:'Do not delete files, reinstall, or pay anyone before getting help.'},
+ C:{t:'Possible phishing',what:n=>'An email link or attachment looked suspicious.',why:'Clicking could lead to a fake login page or malware.',know:n=>'The message was flagged by the phishing rule.',unc:'We cannot confirm the sender or whether anyone clicked.',do:'Do not click. Report it to your administrator and delete only after they say so.',avoid:'Do not open attachments or reply with personal details.'},
+ D:{t:'Routine activity',what:n=>'Normal activity was recorded.',why:'Low concern unless new evidence appears.',know:n=>'No rule threshold was reached.',unc:'Nothing unusual is known.',do:'No action needed.',avoid:'No special cautions.'},
+ U:{t:'Insufficient evidence. Investigation needed.',what:n=>'An event ClearShield does not recognise was recorded.',why:'We do not have enough data to judge it.',know:n=>'Only the raw event is available.',unc:'Almost everything: we are saying so rather than guessing.',do:'Ask your administrator to review it.',avoid:'Do not assume it is safe or dangerous.'}
+};
+function analyze(events,resolved=new Set()){
+  const gs=group(events).map(g=>({...g,flag:applyRules(g)}));
+  const alerts=[];const byDev={};
+  gs.forEach(g=>{(byDev[g.device]??=[]).push(g)});
+  Object.entries(byDev).forEach(([dev,list])=>{
+    const A=list.find(g=>g.flag==='A'),B=list.find(g=>g.flag==='B');
+    const used=new Set();
+    if(A&&B){used.add(A).add(B);alerts.push(mk(dev,'AB','HIGH',[...A.evs,...B.evs],[A.evs.length+' failed logins ('+hm(A.start)+'–'+hm(A.end)+')',B.evs[0].files+' files changed in '+B.evs[0].secs+'s at '+hm(B.start),'Two rules fired on the same device']))}
+    list.filter(g=>!used.has(g)).forEach(g=>{
+      const risk=g.flag==='D'?'LOW':'MEDIUM';
+      alerts.push(mk(dev,g.flag,risk,g.evs,[g.flag==='D'?'No threshold reached':'Rule '+g.flag+' fired ('+g.evs.length+' event'+(g.evs.length>1?'s':'')+')']));
+    });
+  });
+  function mk(dev,k,risk,evs,reasons){const n=k==='B'?evs[0].files:evs.length;return{id:dev+'-'+k,device:dev,kind:k,risk,evs,reasons,n,time:Math.min(...evs.map(e=>e.t)),resolved:resolved.has(dev+'-'+k)}}
+  const o={HIGH:0,MEDIUM:1,LOW:2};return alerts.sort((a,b)=>o[a.risk]-o[b.risk]);
+}
+
+/* ---------- 4. STATE + UI ---------- */
+let events=[],resolved=new Set(),view='Overview',history=[];
+const VIEWS=['Overview','Security Alerts','Guided Actions','Incident History','Settings','About ClearShield'];
+const nav=document.getElementById('nav'),main=document.getElementById('main');
+const alerts=()=>analyze(events,resolved);
+let msg='';
+function load(){events=demoEvents();resolved=new Set();history=[];msg='';draw()}
+/* ---- CSV import: id,timestamp,device,event_type,files_changed,duration_secs,note ---- */
+function parseCSV(txt){
+  const rows=txt.replace(/\r/g,'').trim().split('\n').map(l=>{const o=[];let c='',q=false;for(const ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){o.push(c);c=''}else c+=ch}o.push(c);return o.map(s=>s.trim())});
+  const h=rows.shift().map(s=>s.toLowerCase());const ix=n=>h.indexOf(n);
+  if(ix('timestamp')<0||ix('device')<0||ix('event_type')<0)throw new Error('CSV needs timestamp, device and event_type columns');
+  return rows.filter(r=>r.length>1).map((r,i)=>{
+    const m=(r[ix('timestamp')]||'').match(/(\d{1,2}):(\d{2})(?::(\d{2}))?\s*$/);
+    if(!m)throw new Error('Bad timestamp on row '+(i+2));
+    const e={id:i+1,t:+m[1]*3600+ +m[2]*60+ +(m[3]||0),device:r[ix('device')],type:r[ix('event_type')].toUpperCase(),note:r[ix('note')]};
+    if(e.type==='FILE_CHANGE'){e.files=+r[ix('files_changed')]||0;e.secs=+r[ix('duration_secs')]||60}
+    return e});
+}
+function importText(txt,name){
+  try{events=parseCSV(txt);resolved=new Set();history=[];view='Overview';msg='Imported '+events.length+' events from '+name+' → '+alerts().length+' grouped alerts.'}
+  catch(e){msg='Import failed: '+e.message}
+  draw();
+}
+function importFile(f){if(!f)return;const r=new FileReader();r.onload=()=>importText(r.result,f.name);r.readAsText(f)}
+function sampleCSV(){
+  const L=['id,timestamp,device,event_type,files_changed,duration_secs,note'];let n=0;
+  const add=(h,m,s,d,t,f,du,note)=>L.push([++n,`2026-10-23 ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`,d,t,f,du,note].join(','));
+  add(2,14,0,'CHECKOUT-TABLET','FILE_CHANGE',180,100,'Overnight file changes');
+  add(8,55,0,'NURSE-LAPTOP','LOGIN_OK','','','Normal morning login');
+  add(9,5,0,'RECEPTION-PRINTER','LOGIN_OK','','','Print service started');
+  add(9,40,0,'NURSE-LAPTOP','LOGIN_OK','','','Normal login');
+  for(let i=0;i<20;i++){const s=120+i*15;add(10,Math.floor(s/60),s%60,'FRONT-DESK-PC','AUTH_FAIL','','','Failed password')}
+  add(10,9,0,'FRONT-DESK-PC','FILE_CHANGE',340,90,'Bulk file changes');
+  add(10,20,0,'ADMIN-PC','EMAIL_LINK','','','Link claiming to be from the exam board');
+  for(let i=0;i<3;i++)add(11,30,i*20,'LAB-PC-04','AUTH_FAIL','','','Failed password');
+  add(12,5,0,'ROUTER-01','UNKNOWN_EVT','','','Unrecognised firmware message');
+  return L.join('\n');
+}
+function loadSample(){importText(sampleCSV(),'sample dataset')}
+function downloadSample(){const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(sampleCSV());a.download='clearshield_fake_data.csv';a.click()}
+function clear(){msg='';events=[];resolved=new Set();history=[];draw()}
+function resolve(id){resolved.add(id);const a=alerts().find(x=>x.id===id);history.push({id,device:a.device,risk:a.risk,title:TEXT[a.kind].t,when:new Date().toLocaleTimeString()});draw()}
+const pill=r=>`<span class="pill ${r}">${r}</span>`;
+const evList=a=>`<details><summary>Show all ${a.evs.length} original event${a.evs.length>1?'s':''} (kept, never deleted)</summary><div class="ev">${a.evs.map(e=>`${hm(e.t)} ${e.type} ${e.device}${e.files?' files='+e.files:''}`).join('<br>')}</div></details>`;
+function six(a){const x=TEXT[a.kind];return`<div class="six">
+<div><h4>1 · What happened?</h4>${x.what(a.n)}</div><div><h4>2 · Why it matters</h4>${x.why}</div>
+<div><h4>3 · What do we know?</h4>${x.know(a.n)}</div><div><h4>4 · What is uncertain?</h4>${x.unc}</div>
+<div class="do"><h4>5 · What should I do?</h4>${x.do}</div><div class="av"><h4>6 · What to avoid?</h4>${x.avoid}</div></div>`}
+function alertCard(a,full){const x=TEXT[a.kind];return`<div class="card alert ${a.risk}"><div class="ah">${pill(a.risk)}<b>${x.t}</b><span class="mu">${a.device} · ${hm(a.time)}</span>${a.resolved?'<span class="badge">Resolved</span>':''}</div>
+<div class="mu">Why this risk: ${a.reasons.join(' · ')}</div>${full?six(a):''}${evList(a)}${!a.resolved&&a.risk!=='LOW'?`<p><button class="btn g" onclick="resolve('${a.id}')">Mark as reviewed</button></p>`:''}</div>`}
+const empty='<div class="card empty">No data yet. Press <b>Load demo scenario</b> to see the clinic incident.</div>';
+const VIEWFN={
+ Overview(){const al=alerts(),c=r=>al.filter(a=>a.risk===r).length,open=al.filter(a=>!a.resolved&&a.risk!=='LOW').length;
+  const wk=[['Mon',12],['Tue',18],['Wed',9],['Thu',24],['Fri',31],['Sat',15],['Sun',24]];
+  const mx=Math.max(...wk.map(w=>w[1])),tot=al.length||1;
+  return`<div class="grid"><div class="card"><div class="num">${events.length}</div><div class="mu">Raw events</div></div>
+  <div class="card"><div class="num">${al.length}</div><div class="mu">Grouped alerts</div></div>
+  <div class="card"><div class="num" style="color:var(--hi)">${c('HIGH')}</div><div class="mu">High priority</div></div>
+  <div class="card"><div class="num">${open}</div><div class="mu">Needs review</div></div>
+  <div class="card"><div class="num">${resolved.size}</div><div class="mu">Resolved</div></div></div>
+  <div class="row"><div class="card"><b>Alerts this week</b> <span class="badge">Demo</span><div class="bars">${wk.map(w=>`<div><i style="height:${w[1]/mx*110}px"></i>${w[0]}</div>`).join('')}</div></div>
+  <div class="card"><b>By risk level</b> <span class="badge">Demo</span>${['HIGH','MEDIUM','LOW'].map(r=>`<div class="hb"><b>${r}</b><span class="${r}" style="width:${c(r)/tot*100}%;min-width:${c(r)?6:0}px"></span>${c(r)}</div>`).join('')}
+  <p class="mu">Monitoring status: <b>Demo data</b>, not a protected device.</p></div></div>
+  ${events.length?'':empty}${al.filter(a=>a.risk==='HIGH'&&!a.resolved).map(a=>alertCard(a,true)).join('')}`},
+ 'Security Alerts'(){const al=alerts();return al.length?al.map(a=>alertCard(a,false)).join(''):empty},
+ 'Guided Actions'(){const al=alerts().filter(a=>!a.resolved&&a.risk!=='LOW');return al.length?al.map(a=>alertCard(a,true)).join(''):'<div class="card empty">Nothing needs action right now.</div>'},
+ 'Incident History'(){return history.length?history.map(h=>`<div class="card"><div class="ah">${pill(h.risk)}<b>${h.title}</b><span class="mu">${h.device} · reviewed ${h.when}</span></div></div>`).join(''):'<div class="card empty">No reviewed incidents yet.</div>'},
+ Settings(){return`<div class="card"><b>Rule thresholds</b> <span class="mu">(demo defaults, editable)</span>
+ <label>Rule A: failed logins ≥</label><input type="number" id="t1" value="${T.fails}" min="1">
+ <label>Rule A: within (minutes)</label><input type="number" id="t2" value="${T.failMin}" min="1">
+ <label>Rule B: files changed ≥</label><input type="number" id="t3" value="${T.files}" min="1">
+ <label>Rule B: within (minutes)</label><input type="number" id="t4" value="${T.fileMin}" min="1">
+ <p><button class="btn" onclick="saveT()">Save and re-analyze</button> <button class="btn g" onclick="T={fails:5,failMin:10,files:100,fileMin:2};saveT(1)">Reset defaults</button></p></div>`},
+ 'About ClearShield'(){return`<div class="card"><b>What it is:</b> a working prototype using simulated demo data. Rule-based and fully explainable. It is open about what it is unsure of.<br><br>
+ <b>What it is not:</b> live protection for any device, able to catch every attack, or a replacement for a security expert. It never calls a suspicious event a confirmed attack.</div>`}
+};
+function saveT(skip){if(!skip)T={fails:+t1.value,failMin:+t2.value,files:+t3.value,fileMin:+t4.value};try{localStorage.setItem('cs_T',JSON.stringify(T))}catch(e){}draw()}
+function draw(){
+  nav.innerHTML='<h1>🛡️ ClearShield</h1>'+VIEWS.map(v=>`<button class="${v===view?'on':''}" onclick="view='${v}';draw()">${v}</button>`).join('')+'<small>Prototype · simulated data</small>';
+  main.innerHTML=`<div class="top"><h2>${view}</h2><div><span class="badge">Simulated data</span> <button class="btn" onclick="load()">Load demo scenario</button> <button class="btn g" onclick="clear()">Clear</button></div></div>
+  <div class="card" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><b>Real-data test:</b>
+  <button class="btn" onclick="loadSample()">Load fake CSV dataset</button>
+  <button class="btn g" onclick="document.getElementById('f').click()">Import your own CSV</button>
+  <button class="btn g" onclick="downloadSample()">Download sample CSV</button>
+  <input type="file" id="f" accept=".csv,text/csv" hidden onchange="importFile(this.files[0])">
+  <span class="mu">${msg}</span></div>`+VIEWFN[view]();
+}
+draw();
+</script></body></html>

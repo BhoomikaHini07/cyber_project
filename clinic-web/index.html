@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oakridge Health Clinic – Patient Reception & Care Desk</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="clinic-brand">
+      <span class="clinic-logo">🏥</span>
+      <div class="clinic-title">
+        <h1>Oakridge Community Health Clinic</h1>
+        <p>Reception &amp; Patient Check-In Terminal · Fictional Demonstration Data</p>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div id="clinic-session-pill" class="session-indicator">
+        <span class="dot"></span>
+        <span id="clinic-session-text">Protected Session Active</span>
+      </div>
+
+      <a href="http://localhost:5000" target="_blank" class="link-security">
+        <span>🛡️ ClearShield Security Center</span>
+        <span>↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main>
+
+    <!-- PHASE 6: REASSURING STANDBY BANNER -->
+    <div id="standby-banner" class="standby-banner">
+      <div class="standby-header">
+        <h2>
+          <span>🛡️</span>
+          <span>Protected Standby Mode</span>
+        </h2>
+        <span class="badge badge-green">Care Continuity Enabled</span>
+      </div>
+      <div class="standby-body">
+        Suspicious activity was detected. Access to protected data has been temporarily restricted. Basic clinic operations can continue using the available offline procedures.
+      </div>
+      <div class="standby-subtext">
+        <span>🔒 Zero Fear: Real records safe (0 patient records lost). Continue on paper check-in forms below.</span>
+      </div>
+    </div>
+
+    <!-- ACTION CONTROLS & TEST TRIGGERS -->
+    <div class="action-bar">
+      <div class="search-box">
+        <input type="text" id="patient-search" placeholder="🔍 Search patient by name, chart ID, or room..." onkeyup="filterPatientTable()">
+      </div>
+
+      <div class="scenario-buttons">
+        <button class="btn btn-outline" onclick="openPinModal()">
+          🔑 Supervisor PIN (Scenario B)
+        </button>
+        <button class="btn btn-outline" onclick="triggerScraperCrawl()">
+          🤖 Run Automated Scraper (Scenario C)
+        </button>
+        <button class="btn btn-outline" onclick="triggerBulkExport()">
+          📦 Bulk Patient Export (Scenario D)
+        </button>
+      </div>
+    </div>
+
+    <!-- NORMAL PATIENT RECORDS TABLE (PHASE 1 & 2) -->
+    <div class="card" id="records-card">
+      <div class="table-header">
+        <h3>Patient Admission &amp; Medical Records Registry</h3>
+        <span class="badge badge-blue" id="records-count-badge">Loading...</span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Record #</th>
+              <th>Full Name</th>
+              <th>DOB</th>
+              <th>Condition / Reason</th>
+              <th>Assigned Room</th>
+              <th>Attending Physician</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="patient-table-body">
+            <!-- Dynamic rows populated via clinic.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PHASE 4: CARE CONTINUITY QUEUE & PAPER CHECK-IN FORM -->
+    <div class="card" id="care-continuity-card">
+      <div class="table-header">
+        <h3>📋 Care Continuity – Offline Appointment Queue (Dr. Taylor, Dr. Vance, Dr. Evans)</h3>
+        <div style="display:flex; gap: 8px;">
+          <button class="btn btn-primary" onclick="printCheckInSlip()">
+            🖨️ Auto-Spool Paper Check-In Form
+          </button>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+        During Protected Standby Mode, patient care proceeds uninterrupted using this synthetic offline check-in queue and auto-spooled printable paper check-in slips.
+      </p>
+
+      <div style="overflow-x: auto; margin-bottom: 20px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Scheduled Time</th>
+              <th>Patient Name</th>
+              <th>DOB</th>
+              <th>Attending Doctor</th>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Reception Action</th>
+            </tr>
+          </thead>
+          <tbody id="standby-queue-body">
+            <!-- Populated dynamically via clinic.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PRINTABLE PAPER CHECK-IN FORM (AUTO-SPOOLER) -->
+      <div id="printable-checkin-area">
+        <div class="paper-form">
+          <div class="paper-form-header">
+            <h2 style="font-size: 16px; margin-bottom: 4px;">OAKRIDGE COMMUNITY HEALTH CLINIC</h2>
+            <p style="font-size: 11px; text-transform: uppercase; color: #475569;">
+              Continuity of Care · Patient Paper Check-in Slip · HIPAA Safe Offline Intake
+            </p>
+          </div>
+
+          <div class="paper-grid">
+            <div class="paper-field">
+              <label>Patient Full Name</label>
+              <span id="print-patient-name">Arthur Pendelton</span>
+            </div>
+            <div class="paper-field">
+              <label>Date of Birth</label>
+              <span id="print-patient-dob">1974-05-12</span>
+            </div>
+            <div class="paper-field">
+              <label>Arrival Timestamp</label>
+              <span id="print-arrival-time">Today, 09:30 AM</span>
+            </div>
+            <div class="paper-field">
+              <label>Attending Physician</label>
+              <span id="print-doctor">Dr. Taylor (Room 1)</span>
+            </div>
+          </div>
+
+          <div class="paper-field" style="margin-bottom: 14px;">
+            <label>Chief Complaint / Reason for Visit</label>
+            <span id="print-reason">Hypertension Routine Follow-up</span>
+          </div>
+
+          <div class="paper-grid" style="margin-top: 18px;">
+            <div class="paper-field">
+              <label>Triage Nurse Initials</label>
+              <span>RN-42</span>
+            </div>
+            <div class="paper-field">
+              <label>Patient Signature on Paper</label>
+              <span style="font-family: cursive; font-size: 16px;">A. Pendelton</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; font-size: 10px; color: #64748b; text-align: center;">
+            * Offline Continuity Form generated in accordance with ClearShield Standby Care Protocol.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: SCENARIO A ACCIDENTAL CLICK -->
+  <div class="modal-overlay" id="accidental-click-modal">
+    <div class="modal-box">
+      <h3>
+        <span>⚠️</span>
+        <span>Canary Decoy Record Notification</span>
+      </h3>
+      <p>
+        You clicked <b>Row 0 Canary Decoy Record (Jane Doe)</b>. This is a protected honeypot tripwire designed to detect automated scrapers.<br><br>
+        If you are an authorized receptionist who clicked this row by accident, click <b>"Safe Cancel"</b>. ClearShield will log the cancellation as a safe routine action with <b>zero alarms</b>.
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeAccidentalClickModal()">Dismiss</button>
+        <button class="btn btn-primary" onclick="confirmSafeCancel()">
+          🟢 Safe Cancel (Scenario A – No Alarm)
+        </button>
+        <button class="btn btn-danger" onclick="confirmTripwireBreach()">
+          ⚡ Force Breach Tripwire (Scenario C)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SCENARIO B SUPERVISOR PIN -->
+  <div class="modal-overlay" id="pin-modal">
+    <div class="modal-box">
+      <h3>
+        <span>🔑</span>
+        <span>Supervisor PIN Verification</span>
+      </h3>
+      <p>
+        Enter supervisor PIN to authenticate administrative privileges. Repeated failed entries will be flagged by ClearShield as suspicious brute-force activity.
+      </p>
+      <div style="margin-bottom: 16px;">
+        <input type="password" id="pin-input" placeholder="Enter PIN (Demo Supervisor PIN: 4829)" 
+          style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px;">
+        <div id="pin-error" style="color: #dc2626; font-size: 12px; margin-top: 6px; display: none;"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closePinModal()">Cancel</button>
+        <button class="btn btn-danger" onclick="simulateBadPin()">
+          ⚡ Enter Wrong PIN (Simulate Guessing)
+        </button>
+        <button class="btn btn-primary" onclick="submitPin()">Verify</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PATIENT CHART DETAILS (NORMAL CLICK) -->
+  <div class="modal-overlay" id="patient-modal">
+    <div class="modal-box">
+      <h3>
+        <span>🩺</span>
+        <span id="chart-patient-name">Patient Chart</span>
+      </h3>
+      <div id="chart-patient-details" style="font-size: 13px; line-height: 1.8; color: var(--text);">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="modal-actions" style="margin-top: 18px;">
+        <button class="btn btn-outline" onclick="closePatientModal()">Close Chart</button>
+        <button class="btn btn-primary" onclick="spoolPatientPaperSlip()">
+          🖨️ Spool Paper Slip
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="clinic.js"></script>
+</body>
+</html>

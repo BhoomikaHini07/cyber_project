@@ -1,0 +1,74 @@
+[
+  {
+    "id": "apt-1",
+    "time": "09:30 AM",
+    "patientName": "Arthur Pendelton",
+    "dob": "1974-05-12",
+    "doctor": "Dr. Taylor",
+    "service": "Hypertension Follow-up",
+    "status": "Checked In"
+  },
+  {
+    "id": "apt-2",
+    "time": "10:00 AM",
+    "patientName": "Elena Rostova",
+    "dob": "1989-11-23",
+    "doctor": "Dr. Vance",
+    "service": "Allergy Consultation",
+    "status": "Waiting Room"
+  },
+  {
+    "id": "apt-3",
+    "time": "10:30 AM",
+    "patientName": "Marcus Holloway",
+    "dob": "1966-03-14",
+    "doctor": "Dr. Taylor",
+    "service": "Diabetes Checkup",
+    "status": "Scheduled"
+  },
+  {
+    "id": "apt-4",
+    "time": "11:15 AM",
+    "patientName": "Sophia Chen",
+    "dob": "1995-08-30",
+    "doctor": "Dr. Evans",
+    "service": "Wrist Evaluation",
+    "status": "Scheduled"
+  },
+  {
+    "id": "apt-5",
+    "time": "01:00 PM",
+    "patientName": "David Kim",
+    "dob": "1982-02-17",
+    "doctor": "Dr. Taylor",
+    "service": "Annual Physical",
+    "status": "Scheduled"
+  },
+  {
+    "id": "apt-6",
+    "time": "01:45 PM",
+    "patientName": "Hannah Scott",
+    "dob": "2001-07-09",
+    "doctor": "Dr. Vance",
+    "service": "Dermatology",
+    "status": "Scheduled"
+  },
+  {
+    "id": "apt-7",
+    "time": "02:30 PM",
+    "patientName": "Robert Martinez",
+    "dob": "1958-12-04",
+    "doctor": "Dr. Evans",
+    "service": "Physical Therapy",
+    "status": "Scheduled"
+  },
+  {
+    "id": "apt-8",
+    "time": "03:15 PM",
+    "patientName": "Chloe Bennett",
+    "dob": "1991-04-19",
+    "doctor": "Dr. Taylor",
+    "service": "Asthma Prescription",
+    "status": "Scheduled"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "clearshield-canary-honeypot",
+  "version": "1.0.0",
+  "description": "ClearShield Canary Trap & Honeypot System with Sample Clinic Portal",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node tests/test_scenarios.js"
+  },
+  "keywords": ["clearshield", "honeypot", "canary-trap", "hipaa-security", "cybersecurity"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
