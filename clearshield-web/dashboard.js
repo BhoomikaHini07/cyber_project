@@ -543,7 +543,7 @@ function renderAdminAlertsView() {
         ` : `
           <div style="display: flex; flex-direction: column; gap: 12px;">
             ${alerts.map(a => `
-              <div style="background: rgba(255,255,255,0.03); border-left: 4px solid ${a.severity === 'HIGH' ? '#ef4444' : '#f59e0b'}; padding: 12px; border-radius: 6px;">
+              <div style="background: #ffffff; border: 1px solid var(--card-border); border-left: 4px solid ${a.severity === 'HIGH' ? '#f43f5e' : '#f59e0b'}; padding: 14px; border-radius: 10px; box-shadow: 0 2px 6px rgba(148,163,184,0.06);">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 4px;">
                   <b>${a.title}</b>
                   <span class="tag ${a.severity === 'HIGH' ? 'tag-red' : 'tag-yellow'}">${a.severity}</span>
@@ -551,8 +551,8 @@ function renderAdminAlertsView() {
                 <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">
                   ${a.time.slice(11, 19)} · Device: ${a.device}
                 </div>
-                <p style="font-size: 13px; margin-bottom: 6px;">${a.description}</p>
-                <div style="font-size: 11px; color: #38bdf8;">Action: ${a.action}</div>
+                <p style="font-size: 13px; margin-bottom: 6px; color: #334155;">${a.description}</p>
+                <div style="font-size: 11px; color: #0284c7; font-weight: 600;">Action: ${a.action}</div>
               </div>
             `).join('')}
           </div>
@@ -683,7 +683,7 @@ function renderRestoreSystemView() {
         Once an administrator has reviewed any incident and verified the endpoint is safe, use this control to restore normal clinic operations. This will:
       </p>
 
-      <ul style="color: #cbd5e1; font-size: 13px; margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
+      <ul style="color: var(--text-main); font-size: 13px; margin-left: 20px; margin-bottom: 20px; line-height: 1.8;">
         <li>Clear the Surgical Air-Gap and reconnect database queries (HTTP 403 lifted).</li>
         <li>Unblock Port 445 (SMB) for authorized clinical printing and storage.</li>
         <li>Provision a fresh cryptographically secure session token for reception terminals.</li>
@@ -691,12 +691,12 @@ function renderRestoreSystemView() {
         <li>Restore the ambient status indicator to 🟢 <b>"ClearShield Active – All Systems Normal"</b>.</li>
       </ul>
 
-      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+      <div style="background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
         <label style="display:block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">
           Authorizing Administrator Name:
         </label>
         <input type="text" id="restore-admin-name" value="Dr. Taylor (Chief Medical Officer)" 
-          style="width: 100%; background: #070b13; border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 13px;">
+          style="width: 100%; background: #ffffff; border: 1px solid var(--card-border); color: #0f172a; padding: 8px 12px; border-radius: 6px; font-size: 13px;">
       </div>
 
       <div style="display: flex; gap: 12px;">
@@ -939,16 +939,16 @@ function renderCoreSettingsView() {
     <div class="card" style="max-width: 550px;">
       <div class="card-title">Rule Threshold Settings</div>
       <label style="display:block; margin: 10px 0 4px; font-size:12px;">Rule A: Failed Logins &ge;</label>
-      <input type="number" id="cfg-fails" value="${coreThresholds.fails}" style="width:100%; background:#070b13; border:1px solid var(--card-border); color:#fff; padding:8px; border-radius:6px; margin-bottom:10px;">
+      <input type="number" id="cfg-fails" value="${coreThresholds.fails}" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; color:#0f172a; padding:8px; border-radius:6px; margin-bottom:10px;">
 
       <label style="display:block; margin: 10px 0 4px; font-size:12px;">Rule A Window (Minutes):</label>
-      <input type="number" id="cfg-failmin" value="${coreThresholds.failMin}" style="width:100%; background:#070b13; border:1px solid var(--card-border); color:#fff; padding:8px; border-radius:6px; margin-bottom:10px;">
+      <input type="number" id="cfg-failmin" value="${coreThresholds.failMin}" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; color:#0f172a; padding:8px; border-radius:6px; margin-bottom:10px;">
 
       <label style="display:block; margin: 10px 0 4px; font-size:12px;">Rule B: Files Changed &ge;</label>
-      <input type="number" id="cfg-files" value="${coreThresholds.files}" style="width:100%; background:#070b13; border:1px solid var(--card-border); color:#fff; padding:8px; border-radius:6px; margin-bottom:10px;">
+      <input type="number" id="cfg-files" value="${coreThresholds.files}" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; color:#0f172a; padding:8px; border-radius:6px; margin-bottom:10px;">
 
       <label style="display:block; margin: 10px 0 4px; font-size:12px;">Rule B Window (Minutes):</label>
-      <input type="number" id="cfg-filemin" value="${coreThresholds.fileMin}" style="width:100%; background:#070b13; border:1px solid var(--card-border); color:#fff; padding:8px; border-radius:6px; margin-bottom:14px;">
+      <input type="number" id="cfg-filemin" value="${coreThresholds.fileMin}" style="width:100%; background:#ffffff; border:1px solid #cbd5e1; color:#0f172a; padding:8px; border-radius:6px; margin-bottom:14px;">
 
       <div style="display:flex; gap:10px;">
         <button class="btn" onclick="saveCoreSettings()">Save &amp; Re-Analyze</button>
@@ -978,7 +978,7 @@ function renderCoreAboutView() {
   return `
     <div class="card" style="max-width: 700px;">
       <div class="card-title">About ClearShield</div>
-      <p style="font-size:13px; color:#cbd5e1; line-height:1.7;">
+      <p style="font-size:13px; color:var(--text-main); line-height:1.7;">
         <b>What it is:</b> A working cybersecurity defense and canary trap prototype using explainable, rule-based reasoning and automated surgical air-gapping. It is open about what it is unsure of and protects medical continuity.<br><br>
         <b>What it is not:</b> Live hardware protection or a replacement for professional human security specialists. It never labels an unverified anomaly as a confirmed attack without sufficient telemetry.
       </p>
@@ -989,11 +989,11 @@ function renderCoreAboutView() {
 function renderCoreAlertCard(a, full) {
   const x = CORE_TEXT[a.kind] || CORE_TEXT.U;
   return `
-    <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); border-left: 4px solid ${a.risk==='HIGH'?'#ef4444':a.risk==='MEDIUM'?'#f59e0b':'#10b981'}; border-radius:8px; padding:14px; margin-bottom:14px;">
+    <div style="background:#ffffff; border:1px solid var(--card-border); border-left: 4px solid ${a.risk==='HIGH'?'#f43f5e':a.risk==='MEDIUM'?'#f59e0b':'#10b981'}; border-radius:10px; padding:14px; margin-bottom:14px; box-shadow:0 2px 6px rgba(148,163,184,0.06);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
         <div>
           <span class="tag ${a.risk==='HIGH'?'tag-red':a.risk==='MEDIUM'?'tag-yellow':'tag-green'}">${a.risk}</span>
-          <b style="margin-left:6px; color:#fff;">${x.t}</b>
+          <b style="margin-left:6px; color:#0f172a;">${x.t}</b>
           <span style="color:var(--text-muted); font-size:12px; margin-left:8px;">${a.device} · ${hm(a.time)}</span>
         </div>
         ${a.resolved ? '<span class="tag tag-green">Resolved</span>' : ''}
